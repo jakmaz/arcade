@@ -1,16 +1,19 @@
 package ui
 
 import (
-	"fmt"
 	"strings"
 
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
 	"github.com/jakmaz/arcade/internal/core"
+	"github.com/jakmaz/arcade/internal/ui/styles"
 )
 
 type model struct {
 	cursor int
 	games  []core.Game
+	width  int
+	height int
 }
 
 func NewMenu() model {
@@ -25,6 +28,9 @@ func (m model) Init() tea.Cmd {
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
+	case tea.WindowSizeMsg:
+		m.width = msg.Width
+		m.height = msg.Height
 	case tea.KeyMsg:
 		switch msg.String() {
 		case "ctrl+c", "q":
@@ -46,17 +52,27 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m model) View() string {
-	var b strings.Builder
+	title := styles.TitleStyle.Render("Arcade")
 
-	b.WriteString("🎮 Arcade\n\n")
+	var items []string
 	for i, g := range m.games {
+		style := styles.MenuItemStyle
 		cursor := " "
 		if m.cursor == i {
-			cursor = ">"
+			style = styles.SelectedItemStyle
+			cursor = "> "
 		}
-		b.WriteString(fmt.Sprintf("%s %s — %s\n", cursor, g.Name, g.Description))
+		items = append(items, style.Render(cursor+g.Name+" — "+g.Description))
 	}
-	b.WriteString("\n↑/↓ to move, Enter to select, q to quit\n")
 
-	return b.String()
+	help := styles.HelpStyle.Render("↑/↓ to move, Enter to select, q to quit")
+
+	// Center everything
+	content := lipgloss.JoinVertical(lipgloss.Center,
+		title,
+		strings.Join(items, "\n"),
+		help,
+	)
+
+	return lipgloss.Place(m.width, m.height, lipgloss.Center, lipgloss.Center, content)
 }
