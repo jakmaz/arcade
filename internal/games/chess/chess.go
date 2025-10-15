@@ -4,6 +4,7 @@ import (
 	"time"
 
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
 )
 
 type Model struct {
@@ -27,11 +28,16 @@ func (m *Model) Init() tea.Cmd {
 }
 
 func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+	switch msg := msg.(type) {
+	case tea.WindowSizeMsg:
+		m.width = msg.Width
+		m.height = msg.Height
+	}
 	return m, nil
 }
 
 func (m *Model) View() string {
-	return "Chess Game, Coming soon"
+	return lipgloss.Place(m.width, m.height, lipgloss.Center, lipgloss.Center, "Chess Game, coming Soon")
 }
 
 type tickMsg struct{}

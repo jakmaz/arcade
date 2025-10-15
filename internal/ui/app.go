@@ -64,6 +64,9 @@ func (a *App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		// Transition to game
 		a.currentGame = core.CreateGame(msg.GameID)
 		a.state = GameState
+
+		sizeMsg := tea.WindowSizeMsg{Width: a.width, Height: a.height}
+		a.currentGame, _ = a.currentGame.Update(sizeMsg)
 		return a, a.currentGame.Init()
 
 	case ReturnToMenuMsg:
