@@ -43,13 +43,13 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m Model) View() string {
-	title := styles.TitleStyle.Render("🎯 Tic-Tac-Toe")
+	title := styles.TitleStyle.Render("Tic-Tac-Toe")
 
 	board := m.renderBoard()
 
 	currentPlayer := styles.SelectedItemStyle.Render("Current Player: " + string(m.turn))
 
-	help := styles.HelpStyle.Render("↑↓←→ to move, Enter to place, ESC to return to menu")
+	help := styles.HelpStyle.Render("↑ ↓ ← → to move, Enter to place, ESC to return to menu")
 
 	content := lipgloss.JoinVertical(lipgloss.Center,
 		title,
@@ -65,40 +65,30 @@ func (m Model) View() string {
 }
 
 func (m Model) renderBoard() string {
-	var cellStyle = lipgloss.NewStyle().
-		Width(7).
-		Height(3).
-		Align(lipgloss.Center, lipgloss.Center).
-		Border(lipgloss.RoundedBorder()).
-		BorderForeground(styles.Secondary)
-
-	var selectedCellStyle = cellStyle.Copy().
-		BorderForeground(styles.Accent).
-		BorderStyle(lipgloss.ThickBorder())
-
-	var xStyle = lipgloss.NewStyle().
+	xStyle := lipgloss.NewStyle().
 		Foreground(styles.Success).
 		Bold(true)
 
-	var oStyle = lipgloss.NewStyle().
+	oStyle := lipgloss.NewStyle().
 		Foreground(lipgloss.Color("#ff6b6b")).
 		Bold(true)
 
 	var rows []string
 
-	for y := 0; y < 3; y++ {
+	for y := range 3 {
 		var cells []string
-		for x := 0; x < 3; x++ {
+		for x := range 3 {
 			cellContent := " "
-			if m.board[y][x] == 'X' {
+			switch m.board[y][x] {
+			case 'X':
 				cellContent = xStyle.Render("✕")
-			} else if m.board[y][x] == 'O' {
+			case 'O':
 				cellContent = oStyle.Render("○")
 			}
 
-			style := cellStyle
+			style := styles.CellStyle
 			if m.cursorX == x && m.cursorY == y {
-				style = selectedCellStyle
+				style = styles.SelectedCellStyle
 			}
 
 			cells = append(cells, style.Render(cellContent))
