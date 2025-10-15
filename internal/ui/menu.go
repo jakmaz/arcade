@@ -11,7 +11,7 @@ import (
 
 type model struct {
 	cursor int
-	games  []core.Game
+	games  []core.GameInfo
 	width  int
 	height int
 }
@@ -44,8 +44,11 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.cursor++
 			}
 		case "enter":
-			selected := m.games[m.cursor]
-			return m, tea.Printf("You selected %s!\n", selected.Name)
+			games := core.AvailableGames()
+			selected := games[m.cursor]
+			return m, func() tea.Msg {
+				return StartGameMsg{GameID: selected.ID}
+			}
 		}
 	}
 	return m, nil
