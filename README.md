@@ -28,17 +28,17 @@ arcade
 ### Direct Game Launch
 Jump directly into any game:
 ```bash
-arcade snake      # Play Snake
-arcade tetris     # Play Tetris  
-arcade chess      # Play Chess
-arcade tictactoe  # Play Tic-Tac-Toe
+arcade snake
+arcade tetris
+arcade chess
+arcade tictactoe
 ```
 
 ### Get Help
 View all available commands and options:
 ```bash
-arcade --help     # Full help
-arcade -h         # Short help
+arcade --help 
+arcade -h
 ```
 
 ### List Games
@@ -55,9 +55,8 @@ arcade info snake
 
 ### Other Commands
 ```bash
-arcade --version     # Show version information
-arcade random        # Launch a random game
-arcade completion    # Generate shell completions
+arcade --version 
+arcade random
 ```
 
 ## Available Games
@@ -89,7 +88,7 @@ Arcade welcomes contributions! Whether you want to add new games, fix bugs, or i
    func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) { /* handle input */ }
    func (m Model) View() string { /* render UI */ }
    ```
-3. Register your game in `internal/core/game.go`
+3. Register your game in `internal/core/games.go`
 4. Follow existing UI patterns from other games
 5. Use the shared styles from `internal/ui/styles/`
 
