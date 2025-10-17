@@ -27,6 +27,16 @@ func NewApp() *App {
 	}
 }
 
+func NewAppWithGame(gameID string) *App {
+	app := &App{
+		state:       GameState,
+		currentGame: core.CreateGame(gameID),
+		width:       80,
+		height:      25,
+	}
+	return app
+}
+
 // Custom messages for navigation
 type StartGameMsg struct {
 	GameID string
@@ -35,6 +45,9 @@ type StartGameMsg struct {
 type ReturnToMenuMsg struct{}
 
 func (a *App) Init() tea.Cmd {
+	if a.state == GameState && a.currentGame != nil {
+		return a.currentGame.Init()
+	}
 	return a.menu.Init()
 }
 
