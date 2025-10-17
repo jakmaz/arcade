@@ -56,7 +56,7 @@ func New() *Model {
 	}
 
 	for y := 17; y < 20; y++ {
-		for x := 0; x < 10; x++ {
+		for x := range 10 {
 			if x < 2 || x > 7 || y == 19 {
 				m.board[y][x] = (x+y)%7 + 1
 			}

@@ -40,7 +40,7 @@ var Games = map[string]GameInfo{
 	"tictactoe": {
 		ID:          "tictactoe",
 		Name:        "Tic-Tac-Toe",
-		Description: "We all know it",
+		Description: "Classic game of tic-tac-toe",
 		NewModel:    func() tea.Model { return tictactoe.New() },
 	},
 }

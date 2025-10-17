@@ -55,7 +55,14 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m model) View() string {
-	title := styles.TitleStyle.Render("Arcade")
+	asciiArt := "                             _      \n" +
+		"     /\\                     | |     \n" +
+		"    /  \\   _ __ ___ __ _  __| | ___ \n" +
+		"   / /\\ \\ | '__/ __/ _` |/ _` |/ _ \\\n" +
+		"  / ____ \\| | | (_| (_| | (_| |  __/\n" +
+		" /_/    \\_\\_|  \\___\\__,_|\\__,_|\\___|"
+
+	title := styles.TitleStyle.Render(asciiArt)
 
 	var items []string
 	for i, g := range m.games {
