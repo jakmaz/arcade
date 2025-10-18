@@ -1,0 +1,42 @@
+{
+  "name": "tokyo-night",
+  "defs": {
+    "bg": "#1a1b26",
+    "fg": "#c0caf5",
+    "comment": "#565f89",
+    "cyan": "#7dcfff",
+    "blue": "#7aa2f7",
+    "purple": "#bb9af7",
+    "green": "#9ece6a",
+    "orange": "#ff9e64",
+    "red": "#f7768e",
+    "yellow": "#e0af68"
+  },
+  "theme": {
+    "primary": "fg",
+    "secondary": "comment",
+    "accent": "cyan",
+    "success": "green",
+    "warning": "yellow",
+    "error": "red",
+    "board_border": "comment",
+    "board_background": "none",
+    "cell_border": "comment",
+    "cell_background": "none",
+    "selected_cell": "cyan",
+    "player1": "green",
+    "player2": "red",
+    "snake_body": "green",
+    "snake_head": "cyan",
+    "food": "red",
+    "white_piece": "fg",
+    "black_piece": "comment",
+    "tetris_i": "cyan",
+    "tetris_o": "yellow",
+    "tetris_t": "purple",
+    "tetris_s": "green",
+    "tetris_z": "red",
+    "tetris_j": "blue",
+    "tetris_l": "orange"
+  }
+}

@@ -62,20 +62,20 @@ func (m model) View() string {
 		"  / ____ \\| | | (_| (_| | (_| |  __/\n" +
 		" /_/    \\_\\_|  \\___\\__,_|\\__,_|\\___|"
 
-	title := styles.TitleStyle.Render(asciiArt)
+	title := styles.GetTitleStyle().Render(asciiArt)
 
 	var items []string
 	for i, g := range m.games {
-		style := styles.MenuItemStyle
+		style := styles.GetMenuItemStyle()
 		cursor := " "
 		if m.cursor == i {
-			style = styles.SelectedItemStyle
+			style = styles.GetSelectedItemStyle()
 			cursor = "> "
 		}
 		items = append(items, style.Render(cursor+g.Name+" — "+g.Description))
 	}
 
-	help := styles.HelpStyle.Render("↑/↓ to move, Enter to select, q to quit")
+	help := styles.GetHelpStyle().Render("↑/↓ to move, Enter to select, q to quit")
 
 	// Center everything
 	content := lipgloss.JoinVertical(lipgloss.Center,
