@@ -1,4 +1,4 @@
-![Arcade](https://raw.githubusercontent.com/jakmaz/arcade/main/assets/arcade.png)
+![Arcade](assets/arcade.png)
 
 **Arcade** is a collection of classic games for your terminal, written in Go using [Bubble Tea](https://github.com/charmbracelet/bubbletea) and [Cobra CLI](https://github.com/spf13/cobra).
 Play Snake, Tetris, Chess, and Tic-Tac-Toe directly from the command line - perfect for quick breaks between coding sessions.
@@ -13,7 +13,7 @@ Play Snake, Tetris, Chess, and Tic-Tac-Toe directly from the command line - perf
 ## Installation
 
 ```bash
-go install github.com/jakmaz/arcade/cmd/arcade@latest
+go install github.com/jakmaz/arcade@latest
 ```
 
 ## Usage
@@ -27,50 +27,59 @@ arcade
 ### Direct Game Launch
 Jump directly into any game:
 ```bash
-arcade snake
-arcade tetris
-arcade chess
-arcade tictactoe
-```
-
-### Get Help
-View all available commands and options:
-```bash
-arcade --help 
-arcade -h
-```
-
-### List Games
-See all available games:
-```bash
-arcade list
-```
-
-### Game Information
-Get detailed info about a specific game:
-```bash
-arcade info snake
+arcade play snake
+arcade play tetris
+arcade play chess
+arcade play tictactoe
 ```
 
 ### Other Commands
 ```bash
-arcade --version 
-arcade random
+arcade list                # List all available games
+arcade info [game]         # Get detailed info about a specific game
+arcade --help              # View all available commands and options
+arcade --version           # Show version information
 ```
 
-## Available Games
+## Games
 
-| Game | Command | Description |
-|------|---------|-------------|
-| **Snake** | `arcade snake` | Classic snake game - eat food, grow longer, avoid walls |
-| **Tetris** | `arcade tetris` | Block puzzle game with falling pieces |
-| **Chess** | `arcade chess` | Strategic board game with full piece set |
-| **Tic-Tac-Toe** | `arcade tictactoe` | Classic X's and O's game |
+| Game | Description | Preview |
+|------|-------------|---------|
+| **Snake** | Classic snake game - eat food, grow longer, avoid walls | <img src="assets/screenshots/snake.png" width="200" alt="Snake"> |
+| **Tetris** | Block puzzle game with falling pieces and line clearing | <img src="assets/screenshots/tetris.png" width="200" alt="Tetris"> |
+| **Chess** | Strategic board game with full piece movement | <img src="assets/screenshots/chess.png" width="200" alt="Chess"> |
+| **Tic-Tac-Toe** | Classic X's and O's game | <img src="assets/screenshots/tictactoe.png" width="200" alt="Tic-Tac-Toe"> |
+
+## Themes
+
+Arcade supports multiple built-in themes with custom theme support:
+
+- **Dracula** - Dark theme with purple accents
+- **GitHub** - GitHub's dark color scheme
+- **Gruvbox Dark** - Warm, retro color scheme
+- **Nord** - Arctic, north-bluish theme
+- **Tokyo Night** - Dark theme with neon highlights
+
+### Custom Themes
+Create custom themes by adding YAML files to `~/.config/arcade`:
+```yaml
+name: mytheme
+palette:
+  bg: "#1a1a1a"
+  fg: "#ffffff"
+  # ... more colors
+ui:
+  primary: fg
+  accent: purple
+  # ... UI mappings
+```
+You can find the structure of the theme file in [internal/theme/themes/dracula.yaml](internal/theme/themes/dracula.yaml).
+If you are happy with your theme, please consider contributing it back to the project!
 
 ## Contributing
 
-Arcade welcomes contributions! Whether you want to add new games, new themes, fix bugs, or improve the UI, your help is higly appreciated.
-The ultimate goal is to make `arcade` an amazing comunity-driven game collection for your terminal.
+Arcade welcomes contributions! Whether you want to add new games, new themes, fix bugs, or improve the UI, your help is highly appreciated.
+The ultimate goal is to make `arcade` an amazing community-driven game collection for your terminal.
 
 ### Adding a New Game
 
@@ -96,9 +105,6 @@ go run .
 
 ## Acknowledgments
 
-### Theming System
-The theming system in Arcade was inspired by [OpenCode](https://github.com/sst/opencode)'s excellent approach to terminal themes
-
-### Game Implementations and Design
+- **Theming System**: Inspired by [OpenCode](https://github.com/sst/opencode)
 - **Tetris**: Inspired by [tetrigo](https://github.com/Broderick-Westrope/tetrigo)
-- **Chess**: Inpired by [Gambit](https://github.com/maaslalani/gambit)
+- **Chess**: Inspired by [Gambit](https://github.com/maaslalani/gambit)
