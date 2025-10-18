@@ -1,0 +1,55 @@
+# A theme inspired by GitHub's dark color scheme
+name: github
+
+palette:
+  bg: "#0d1117"
+  fg: "#c9d1d9"
+  comment: "#8b949e"
+  blue: "#58a6ff"
+  green: "#3fb950"
+  red: "#f85149"
+  orange: "#d29922"
+  purple: "#bc8cff"
+  pink: "#ff7b72"
+  yellow: "#e3b341"
+  cyan: "#39c5cf"
+  border: "#30363d"
+  panel: "#161b22"
+
+ui:
+  primary: fg
+  secondary: comment
+  accent: blue
+  success: green
+  warning: yellow
+  error: red
+
+board:
+  border: border
+  background: none
+  cellBorder: border
+  cellBackground: none
+  selectedCell: blue
+
+games:
+  chess:
+    whitePieces: fg
+    blackPieces: comment
+
+  snake:
+    body: green
+    head: blue
+    food: red
+
+  tetris:
+    iPiece: cyan
+    oPiece: yellow
+    tPiece: purple
+    sPiece: green
+    zPiece: red
+    jPiece: blue
+    lPiece: orange
+
+  tictactoe:
+    player1: green
+    player2: red
