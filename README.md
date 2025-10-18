@@ -69,7 +69,7 @@ arcade random
 
 ## Contributing
 
-Arcade welcomes contributions! Whether you want to add new games, fix bugs, or improve the UI, your help is appreciated.
+Arcade welcomes contributions! Whether you want to add new games, new themes, fix bugs, or improve the UI, your help is appreciated.
 
 ### Adding a New Game
 
