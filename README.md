@@ -24,19 +24,10 @@ Launch the interactive game menu:
 arcade
 ```
 
-### Direct Game Launch
-Jump directly into any game:
-```bash
-arcade play snake
-arcade play tetris
-arcade play chess
-arcade play tictactoe
-```
-
 ### Other Commands
 ```bash
 arcade list                # List all available games
-arcade info [game]         # Get detailed info about a specific game
+arcade play [game]         # Start a game directly
 arcade --help              # View all available commands and options
 arcade --version           # Show version information
 ```
