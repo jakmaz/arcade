@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/charmbracelet/lipgloss/v2"
 	"github.com/jakmaz/arcade/internal/theme"
 	"github.com/jakmaz/arcade/internal/ui/styles"
 	"github.com/spf13/cobra"
@@ -29,12 +30,12 @@ var listThemesCmd = &cobra.Command{
 		themes := theme.ListThemes()
 		currentTheme := theme.GetCurrentTheme()
 
-		fmt.Println("Available themes:")
+		lipgloss.Println("Available themes:")
 		for _, name := range themes {
 			if currentTheme != nil && name == currentTheme.Name() {
-				fmt.Printf("* %s (current)\n", name)
+				lipgloss.Printf("* %s (current)\n", name)
 			} else {
-				fmt.Printf("  %s\n", name)
+				lipgloss.Printf("  %s\n", name)
 			}
 		}
 	},
@@ -62,7 +63,7 @@ var setThemeCmd = &cobra.Command{
 		// Refresh styles to use new theme
 		styles.RefreshStyles()
 
-		fmt.Printf("Theme set to: %s\n", themeName)
+		lipgloss.Printf("Theme set to: %s\n", themeName)
 	},
 }
 
@@ -90,36 +91,36 @@ var previewThemeCmd = &cobra.Command{
 		// Create styles with this theme
 		themeStyles := theme.NewStylesWithTheme(themeObj)
 
-		fmt.Printf("Theme: %s\n\n", themeObj.Name())
+		lipgloss.Printf("Theme: %s\n\n", themeObj.Name())
 
 		// Show UI colors
-		fmt.Println("UI Colors:")
-		fmt.Printf("  Primary:   %s\n", themeStyles.TitleStyle().Render("Sample Primary Text"))
-		fmt.Printf("  Secondary: %s\n", themeStyles.MenuItemStyle().Render("Sample Secondary Text"))
-		fmt.Printf("  Accent:    %s\n", themeStyles.SelectedItemStyle().Render("Sample Accent Text"))
-		fmt.Printf("  Success:   %s\n", themeStyles.SuccessStyle().Render("Sample Success Text"))
-		fmt.Printf("  Warning:   %s\n", themeStyles.WarningStyle().Render("Sample Warning Text"))
-		fmt.Printf("  Error:     %s\n", themeStyles.ErrorStyle().Render("Sample Error Text"))
+		lipgloss.Println("UI Colors:")
+		lipgloss.Printf("  Primary:   %s\n", themeStyles.TitleStyle().Render("Sample Primary Text"))
+		lipgloss.Printf("  Secondary: %s\n", themeStyles.MenuItemStyle().Render("Sample Secondary Text"))
+		lipgloss.Printf("  Accent:    %s\n", themeStyles.SelectedItemStyle().Render("Sample Accent Text"))
+		lipgloss.Printf("  Success:   %s\n", themeStyles.SuccessStyle().Render("Sample Success Text"))
+		lipgloss.Printf("  Warning:   %s\n", themeStyles.WarningStyle().Render("Sample Warning Text"))
+		lipgloss.Printf("  Error:     %s\n", themeStyles.ErrorStyle().Render("Sample Error Text"))
 
-		fmt.Println("\nGame Colors:")
-		fmt.Printf("  Player 1:    %s\n", themeStyles.Player1Style().Render("●"))
-		fmt.Printf("  Player 2:    %s\n", themeStyles.Player2Style().Render("●"))
-		fmt.Printf("  Snake Body:  %s\n", themeStyles.SnakeStyle().Render("●"))
-		fmt.Printf("  Snake Head:  %s\n", themeStyles.SnakeHeadStyle().Render("◉"))
-		fmt.Printf("  Food:        %s\n", themeStyles.FoodStyle().Render("◆"))
+		lipgloss.Println("\nGame Colors:")
+		lipgloss.Printf("  Player 1:    %s\n", themeStyles.Player1Style().Render("●"))
+		lipgloss.Printf("  Player 2:    %s\n", themeStyles.Player2Style().Render("●"))
+		lipgloss.Printf("  Snake Body:  %s\n", themeStyles.SnakeStyle().Render("●"))
+		lipgloss.Printf("  Snake Head:  %s\n", themeStyles.SnakeHeadStyle().Render("◉"))
+		lipgloss.Printf("  Food:        %s\n", themeStyles.FoodStyle().Render("◆"))
 
-		fmt.Println("\nChess Pieces:")
-		fmt.Printf("  White: %s\n", themeStyles.WhitePieceStyle().Render("♔ ♕ ♖ ♗ ♘ ♙"))
-		fmt.Printf("  Black: %s\n", themeStyles.BlackPieceStyle().Render("♚ ♛ ♜ ♝ ♞ ♟"))
+		lipgloss.Println("\nChess Pieces:")
+		lipgloss.Printf("  White: %s\n", themeStyles.WhitePieceStyle().Render("♔ ♕ ♖ ♗ ♘ ♙"))
+		lipgloss.Printf("  Black: %s\n", themeStyles.BlackPieceStyle().Render("♚ ♛ ♜ ♝ ♞ ♟"))
 
-		fmt.Println("\nTetris Pieces:")
-		fmt.Printf("  I: %s  ", themeStyles.TetrisPieceStyle("I").Render("████"))
-		fmt.Printf("O: %s  ", themeStyles.TetrisPieceStyle("O").Render("██"))
-		fmt.Printf("T: %s  ", themeStyles.TetrisPieceStyle("T").Render("███"))
-		fmt.Printf("S: %s\n", themeStyles.TetrisPieceStyle("S").Render("██"))
-		fmt.Printf("  Z: %s  ", themeStyles.TetrisPieceStyle("Z").Render("██"))
-		fmt.Printf("J: %s  ", themeStyles.TetrisPieceStyle("J").Render("███"))
-		fmt.Printf("L: %s\n", themeStyles.TetrisPieceStyle("L").Render("███"))
+		lipgloss.Println("\nTetris Pieces:")
+		lipgloss.Printf("  I: %s  ", themeStyles.TetrisPieceStyle("I").Render("████"))
+		lipgloss.Printf("O: %s  ", themeStyles.TetrisPieceStyle("O").Render("██"))
+		lipgloss.Printf("T: %s  ", themeStyles.TetrisPieceStyle("T").Render("███"))
+		lipgloss.Printf("S: %s\n", themeStyles.TetrisPieceStyle("S").Render("██"))
+		lipgloss.Printf("  Z: %s  ", themeStyles.TetrisPieceStyle("Z").Render("██"))
+		lipgloss.Printf("J: %s  ", themeStyles.TetrisPieceStyle("J").Render("███"))
+		lipgloss.Printf("L: %s\n", themeStyles.TetrisPieceStyle("L").Render("███"))
 	},
 }
 

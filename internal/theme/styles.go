@@ -1,6 +1,10 @@
 package theme
 
-import "github.com/charmbracelet/lipgloss"
+import (
+	"image/color"
+
+	"github.com/charmbracelet/lipgloss/v2"
+)
 
 // Styles provides lipgloss styles based on the current theme
 type Styles struct {
@@ -111,7 +115,7 @@ func (s *Styles) FoodStyle() lipgloss.Style {
 
 // Tetris Piece Styles
 func (s *Styles) TetrisPieceStyle(pieceType string) lipgloss.Style {
-	var color lipgloss.TerminalColor
+	var color color.Color
 
 	switch pieceType {
 	case "I":
@@ -172,7 +176,10 @@ func (s *Styles) ErrorStyle() lipgloss.Style {
 // Terminal Background Style
 func (s *Styles) TerminalBackgroundStyle() lipgloss.Style {
 	if s.theme.ShouldUseTerminalBackground() {
-		return lipgloss.NewStyle().Background(s.theme.TerminalBackground())
+		return lipgloss.NewStyle().
+			Background(s.theme.TerminalBackground()).
+			AlignHorizontal(lipgloss.Center).
+			AlignVertical(lipgloss.Center)
 	}
 	return lipgloss.NewStyle()
 }

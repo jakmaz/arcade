@@ -1,7 +1,7 @@
 package styles
 
 import (
-	"github.com/charmbracelet/lipgloss"
+	"github.com/charmbracelet/lipgloss/v2"
 	"github.com/jakmaz/arcade/internal/theme"
 )
 
@@ -9,11 +9,11 @@ var (
 	// Get the themed styles (will be initialized lazily)
 	styles *theme.Styles
 
-	// Legacy adaptive colors for backwards compatibility
-	Primary   = lipgloss.AdaptiveColor{Light: "#1a1a1a", Dark: "#dddddd"}
-	Secondary = lipgloss.AdaptiveColor{Light: "#585858", Dark: "#a8a8a8"}
-	Accent    = lipgloss.AdaptiveColor{Light: "#0066cc", Dark: "#66b3ff"}
-	Success   = lipgloss.AdaptiveColor{Light: "#22c55e", Dark: "#4ade80"}
+	// Legacy colors for backwards compatibility
+	Primary   = lipgloss.Color("#dddddd")
+	Secondary = lipgloss.Color("#a8a8a8")
+	Accent    = lipgloss.Color("#66b3ff")
+	Success   = lipgloss.Color("#4ade80")
 )
 
 // Lazy initialization variables

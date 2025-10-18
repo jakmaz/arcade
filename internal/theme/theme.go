@@ -1,48 +1,50 @@
 package theme
 
-import "github.com/charmbracelet/lipgloss"
+import (
+	"image/color"
+)
 
 // Theme represents a complete color scheme for the arcade games
 type Theme interface {
 	Name() string
 
 	// UI Colors
-	Primary() lipgloss.TerminalColor
-	Secondary() lipgloss.TerminalColor
-	Accent() lipgloss.TerminalColor
-	Success() lipgloss.TerminalColor
-	Warning() lipgloss.TerminalColor
-	Error() lipgloss.TerminalColor
+	Primary() color.Color
+	Secondary() color.Color
+	Accent() color.Color
+	Success() color.Color
+	Warning() color.Color
+	Error() color.Color
 
 	// Game Board Colors
-	BoardBorder() lipgloss.TerminalColor
-	BoardBackground() lipgloss.TerminalColor
-	CellBorder() lipgloss.TerminalColor
-	CellBackground() lipgloss.TerminalColor
-	SelectedCell() lipgloss.TerminalColor
+	BoardBorder() color.Color
+	BoardBackground() color.Color
+	CellBorder() color.Color
+	CellBackground() color.Color
+	SelectedCell() color.Color
 
 	// Game Piece Colors
-	Player1() lipgloss.TerminalColor
-	Player2() lipgloss.TerminalColor
-	SnakeBody() lipgloss.TerminalColor
-	SnakeHead() lipgloss.TerminalColor
-	Food() lipgloss.TerminalColor
+	Player1() color.Color
+	Player2() color.Color
+	SnakeBody() color.Color
+	SnakeHead() color.Color
+	Food() color.Color
 
 	// Chess Piece Colors
-	WhitePiece() lipgloss.TerminalColor
-	BlackPiece() lipgloss.TerminalColor
+	WhitePiece() color.Color
+	BlackPiece() color.Color
 
 	// Tetris Colors
-	TetrisI() lipgloss.TerminalColor
-	TetrisO() lipgloss.TerminalColor
-	TetrisT() lipgloss.TerminalColor
-	TetrisS() lipgloss.TerminalColor
-	TetrisZ() lipgloss.TerminalColor
-	TetrisJ() lipgloss.TerminalColor
-	TetrisL() lipgloss.TerminalColor
+	TetrisI() color.Color
+	TetrisO() color.Color
+	TetrisT() color.Color
+	TetrisS() color.Color
+	TetrisZ() color.Color
+	TetrisJ() color.Color
+	TetrisL() color.Color
 
 	// Terminal Background
-	TerminalBackground() lipgloss.TerminalColor
+	TerminalBackground() color.Color
 	ShouldUseTerminalBackground() bool
 }
 
@@ -51,77 +53,77 @@ type BaseTheme struct {
 	name string
 
 	// Color definitions
-	primary   lipgloss.TerminalColor
-	secondary lipgloss.TerminalColor
-	accent    lipgloss.TerminalColor
-	success   lipgloss.TerminalColor
-	warning   lipgloss.TerminalColor
-	error     lipgloss.TerminalColor
+	primary   color.Color
+	secondary color.Color
+	accent    color.Color
+	success   color.Color
+	warning   color.Color
+	error     color.Color
 
-	boardBorder     lipgloss.TerminalColor
-	boardBackground lipgloss.TerminalColor
-	cellBorder      lipgloss.TerminalColor
-	cellBackground  lipgloss.TerminalColor
-	selectedCell    lipgloss.TerminalColor
+	boardBorder     color.Color
+	boardBackground color.Color
+	cellBorder      color.Color
+	cellBackground  color.Color
+	selectedCell    color.Color
 
-	player1   lipgloss.TerminalColor
-	player2   lipgloss.TerminalColor
-	snakeBody lipgloss.TerminalColor
-	snakeHead lipgloss.TerminalColor
-	food      lipgloss.TerminalColor
+	player1   color.Color
+	player2   color.Color
+	snakeBody color.Color
+	snakeHead color.Color
+	food      color.Color
 
-	whitePiece lipgloss.TerminalColor
-	blackPiece lipgloss.TerminalColor
+	whitePiece color.Color
+	blackPiece color.Color
 
-	tetrisI lipgloss.TerminalColor
-	tetrisO lipgloss.TerminalColor
-	tetrisT lipgloss.TerminalColor
-	tetrisS lipgloss.TerminalColor
-	tetrisZ lipgloss.TerminalColor
-	tetrisJ lipgloss.TerminalColor
-	tetrisL lipgloss.TerminalColor
+	tetrisI color.Color
+	tetrisO color.Color
+	tetrisT color.Color
+	tetrisS color.Color
+	tetrisZ color.Color
+	tetrisJ color.Color
+	tetrisL color.Color
 
-	terminalBackground    lipgloss.TerminalColor
+	terminalBackground    color.Color
 	useTerminalBackground bool
 }
 
 func (t *BaseTheme) Name() string { return t.name }
 
 // UI Colors
-func (t *BaseTheme) Primary() lipgloss.TerminalColor   { return t.primary }
-func (t *BaseTheme) Secondary() lipgloss.TerminalColor { return t.secondary }
-func (t *BaseTheme) Accent() lipgloss.TerminalColor    { return t.accent }
-func (t *BaseTheme) Success() lipgloss.TerminalColor   { return t.success }
-func (t *BaseTheme) Warning() lipgloss.TerminalColor   { return t.warning }
-func (t *BaseTheme) Error() lipgloss.TerminalColor     { return t.error }
+func (t *BaseTheme) Primary() color.Color   { return t.primary }
+func (t *BaseTheme) Secondary() color.Color { return t.secondary }
+func (t *BaseTheme) Accent() color.Color    { return t.accent }
+func (t *BaseTheme) Success() color.Color   { return t.success }
+func (t *BaseTheme) Warning() color.Color   { return t.warning }
+func (t *BaseTheme) Error() color.Color     { return t.error }
 
 // Game Board Colors
-func (t *BaseTheme) BoardBorder() lipgloss.TerminalColor     { return t.boardBorder }
-func (t *BaseTheme) BoardBackground() lipgloss.TerminalColor { return t.boardBackground }
-func (t *BaseTheme) CellBorder() lipgloss.TerminalColor      { return t.cellBorder }
-func (t *BaseTheme) CellBackground() lipgloss.TerminalColor  { return t.cellBackground }
-func (t *BaseTheme) SelectedCell() lipgloss.TerminalColor    { return t.selectedCell }
+func (t *BaseTheme) BoardBorder() color.Color     { return t.boardBorder }
+func (t *BaseTheme) BoardBackground() color.Color { return t.boardBackground }
+func (t *BaseTheme) CellBorder() color.Color      { return t.cellBorder }
+func (t *BaseTheme) CellBackground() color.Color  { return t.cellBackground }
+func (t *BaseTheme) SelectedCell() color.Color    { return t.selectedCell }
 
 // Game Piece Colors
-func (t *BaseTheme) Player1() lipgloss.TerminalColor   { return t.player1 }
-func (t *BaseTheme) Player2() lipgloss.TerminalColor   { return t.player2 }
-func (t *BaseTheme) SnakeBody() lipgloss.TerminalColor { return t.snakeBody }
-func (t *BaseTheme) SnakeHead() lipgloss.TerminalColor { return t.snakeHead }
-func (t *BaseTheme) Food() lipgloss.TerminalColor      { return t.food }
+func (t *BaseTheme) Player1() color.Color   { return t.player1 }
+func (t *BaseTheme) Player2() color.Color   { return t.player2 }
+func (t *BaseTheme) SnakeBody() color.Color { return t.snakeBody }
+func (t *BaseTheme) SnakeHead() color.Color { return t.snakeHead }
+func (t *BaseTheme) Food() color.Color      { return t.food }
 
 // Chess Piece Colors
-func (t *BaseTheme) WhitePiece() lipgloss.TerminalColor { return t.whitePiece }
-func (t *BaseTheme) BlackPiece() lipgloss.TerminalColor { return t.blackPiece }
+func (t *BaseTheme) WhitePiece() color.Color { return t.whitePiece }
+func (t *BaseTheme) BlackPiece() color.Color { return t.blackPiece }
 
 // Tetris Colors
-func (t *BaseTheme) TetrisI() lipgloss.TerminalColor { return t.tetrisI }
-func (t *BaseTheme) TetrisO() lipgloss.TerminalColor { return t.tetrisO }
-func (t *BaseTheme) TetrisT() lipgloss.TerminalColor { return t.tetrisT }
-func (t *BaseTheme) TetrisS() lipgloss.TerminalColor { return t.tetrisS }
-func (t *BaseTheme) TetrisZ() lipgloss.TerminalColor { return t.tetrisZ }
-func (t *BaseTheme) TetrisJ() lipgloss.TerminalColor { return t.tetrisJ }
-func (t *BaseTheme) TetrisL() lipgloss.TerminalColor { return t.tetrisL }
+func (t *BaseTheme) TetrisI() color.Color { return t.tetrisI }
+func (t *BaseTheme) TetrisO() color.Color { return t.tetrisO }
+func (t *BaseTheme) TetrisT() color.Color { return t.tetrisT }
+func (t *BaseTheme) TetrisS() color.Color { return t.tetrisS }
+func (t *BaseTheme) TetrisZ() color.Color { return t.tetrisZ }
+func (t *BaseTheme) TetrisJ() color.Color { return t.tetrisJ }
+func (t *BaseTheme) TetrisL() color.Color { return t.tetrisL }
 
 // Terminal Background
-func (t *BaseTheme) TerminalBackground() lipgloss.TerminalColor { return t.terminalBackground }
-func (t *BaseTheme) ShouldUseTerminalBackground() bool          { return t.useTerminalBackground }
+func (t *BaseTheme) TerminalBackground() color.Color   { return t.terminalBackground }
+func (t *BaseTheme) ShouldUseTerminalBackground() bool { return t.useTerminalBackground }

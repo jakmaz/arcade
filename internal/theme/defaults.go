@@ -1,46 +1,46 @@
 package theme
 
-import "github.com/charmbracelet/lipgloss"
+import "github.com/charmbracelet/lipgloss/v2"
 
-// NewSystemTheme creates a system theme that adapts to terminal background
+// SystemTheme creates a system theme that adapts to terminal background
 func SystemTheme() Theme {
 	return &BaseTheme{
 		name: "system",
 
-		// UI Colors - using adaptive colors
-		primary:   lipgloss.AdaptiveColor{Light: "#1a1a1a", Dark: "#dddddd"},
-		secondary: lipgloss.AdaptiveColor{Light: "#585858", Dark: "#a8a8a8"},
-		accent:    lipgloss.AdaptiveColor{Light: "#0066cc", Dark: "#66b3ff"},
-		success:   lipgloss.AdaptiveColor{Light: "#22c55e", Dark: "#4ade80"},
-		warning:   lipgloss.AdaptiveColor{Light: "#f59e0b", Dark: "#fbbf24"},
-		error:     lipgloss.AdaptiveColor{Light: "#ef4444", Dark: "#f87171"},
+		// UI Colors - using dark colors as default for now
+		primary:   lipgloss.Color("#dddddd"),
+		secondary: lipgloss.Color("#a8a8a8"),
+		accent:    lipgloss.Color("#66b3ff"),
+		success:   lipgloss.Color("#4ade80"),
+		warning:   lipgloss.Color("#fbbf24"),
+		error:     lipgloss.Color("#f87171"),
 
 		// Game Board Colors
-		boardBorder:     lipgloss.AdaptiveColor{Light: "#585858", Dark: "#a8a8a8"},
+		boardBorder:     lipgloss.Color("#a8a8a8"),
 		boardBackground: lipgloss.Color(""),
-		cellBorder:      lipgloss.AdaptiveColor{Light: "#585858", Dark: "#a8a8a8"},
+		cellBorder:      lipgloss.Color("#a8a8a8"),
 		cellBackground:  lipgloss.Color(""),
-		selectedCell:    lipgloss.AdaptiveColor{Light: "#0066cc", Dark: "#66b3ff"},
+		selectedCell:    lipgloss.Color("#66b3ff"),
 
 		// Game Piece Colors
-		player1:   lipgloss.AdaptiveColor{Light: "#22c55e", Dark: "#4ade80"},
-		player2:   lipgloss.AdaptiveColor{Light: "#ef4444", Dark: "#f87171"},
-		snakeBody: lipgloss.AdaptiveColor{Light: "#22c55e", Dark: "#4ade80"},
-		snakeHead: lipgloss.AdaptiveColor{Light: "#0066cc", Dark: "#66b3ff"},
-		food:      lipgloss.AdaptiveColor{Light: "#ef4444", Dark: "#f87171"},
+		player1:   lipgloss.Color("#4ade80"),
+		player2:   lipgloss.Color("#f87171"),
+		snakeBody: lipgloss.Color("#4ade80"),
+		snakeHead: lipgloss.Color("#66b3ff"),
+		food:      lipgloss.Color("#f87171"),
 
 		// Chess Piece Colors
-		whitePiece: lipgloss.AdaptiveColor{Light: "#1a1a1a", Dark: "#ffffff"},
-		blackPiece: lipgloss.AdaptiveColor{Light: "#666666", Dark: "#444444"},
+		whitePiece: lipgloss.Color("#ffffff"),
+		blackPiece: lipgloss.Color("#444444"),
 
 		// Tetris Colors
-		tetrisI: lipgloss.AdaptiveColor{Light: "#0891b2", Dark: "#00f5ff"},
-		tetrisO: lipgloss.AdaptiveColor{Light: "#eab308", Dark: "#ffff00"},
-		tetrisT: lipgloss.AdaptiveColor{Light: "#7c3aed", Dark: "#a855f7"},
-		tetrisS: lipgloss.AdaptiveColor{Light: "#16a34a", Dark: "#22c55e"},
-		tetrisZ: lipgloss.AdaptiveColor{Light: "#dc2626", Dark: "#ef4444"},
-		tetrisJ: lipgloss.AdaptiveColor{Light: "#2563eb", Dark: "#3b82f6"},
-		tetrisL: lipgloss.AdaptiveColor{Light: "#ea580c", Dark: "#f97316"},
+		tetrisI: lipgloss.Color("#00f5ff"),
+		tetrisO: lipgloss.Color("#ffff00"),
+		tetrisT: lipgloss.Color("#a855f7"),
+		tetrisS: lipgloss.Color("#22c55e"),
+		tetrisZ: lipgloss.Color("#ef4444"),
+		tetrisJ: lipgloss.Color("#3b82f6"),
+		tetrisL: lipgloss.Color("#f97316"),
 
 		// Terminal Background - disabled for system theme
 		terminalBackground:    lipgloss.Color(""),

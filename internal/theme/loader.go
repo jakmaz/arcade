@@ -2,10 +2,11 @@ package theme
 
 import (
 	"fmt"
+	"image/color"
 	"os"
 	"path/filepath"
 
-	"github.com/charmbracelet/lipgloss"
+	"github.com/charmbracelet/lipgloss/v2"
 	"gopkg.in/yaml.v3"
 )
 
@@ -122,8 +123,8 @@ func LoadThemesFromDirectory(dir string) ([]Theme, error) {
 func createThemeFromDefinition(def *ThemeDefinition) (*BaseTheme, error) {
 	theme := &BaseTheme{name: def.Name}
 
-	// Helper function to resolve color references and create lipgloss.TerminalColor
-	resolveColor := func(colorStr string) lipgloss.TerminalColor {
+	// Helper function to resolve color references and create color.Color
+	resolveColor := func(colorStr string) color.Color {
 		// Resolve color reference if it doesn't start with #
 		if colorStr != "" && colorStr[0] != '#' {
 			if refColor, exists := def.Palette[colorStr]; exists {

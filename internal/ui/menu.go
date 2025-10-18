@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/charmbracelet/lipgloss"
+	"github.com/charmbracelet/lipgloss/v2"
 	"github.com/jakmaz/arcade/internal/core"
 	"github.com/jakmaz/arcade/internal/theme"
 	"github.com/jakmaz/arcade/internal/ui/styles"

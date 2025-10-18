@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/charmbracelet/lipgloss"
+	"github.com/charmbracelet/lipgloss/v2"
 	"github.com/jakmaz/arcade/internal/ui/styles"
 )
 
@@ -111,7 +111,7 @@ func (m *Model) View() string {
 }
 
 func (m *Model) renderBoard() string {
-	colors := []lipgloss.Color{
+	colors := []string{
 		"",
 		"#ff6b6b", // Red
 		"#4ecdc4", // Teal
@@ -152,8 +152,8 @@ func (m *Model) renderBoard() string {
 				rowContent.WriteString("  ")
 			} else {
 				blockStyle := lipgloss.NewStyle().
-					Background(colors[cell]).
-					Foreground(colors[cell])
+					Background(lipgloss.Color(colors[cell])).
+					Foreground(lipgloss.Color(colors[cell]))
 				rowContent.WriteString(blockStyle.Render("██"))
 			}
 		}
@@ -184,7 +184,7 @@ func (m *Model) renderSidebar() string {
 }
 
 func (m *Model) renderNextPiece() string {
-	colors := []lipgloss.Color{
+	colors := []string{
 		"",
 		"#ff6b6b", // Red
 		"#4ecdc4", // Teal
@@ -203,8 +203,8 @@ func (m *Model) renderNextPiece() string {
 				rowContent.WriteString("  ")
 			} else {
 				blockStyle := lipgloss.NewStyle().
-					Background(colors[m.nextPiece.color]).
-					Foreground(colors[m.nextPiece.color])
+					Background(lipgloss.Color(colors[m.nextPiece.color])).
+					Foreground(lipgloss.Color(colors[m.nextPiece.color]))
 				rowContent.WriteString(blockStyle.Render("██"))
 			}
 		}

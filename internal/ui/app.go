@@ -2,8 +2,9 @@ package ui
 
 import (
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/charmbracelet/lipgloss"
+	"github.com/charmbracelet/lipgloss/v2"
 	"github.com/jakmaz/arcade/internal/core"
+	"github.com/jakmaz/arcade/internal/theme"
 	"github.com/jakmaz/arcade/internal/ui/styles"
 )
 
@@ -111,16 +112,23 @@ func (a *App) View() string {
 		content = a.currentGame.View()
 	}
 
-	// Apply terminal background with full viewport dimensions
-	if a.width > 0 && a.height > 0 {
-		return styles.GetTerminalBackgroundStyle().
+	// Apply centralized background handling
+	return a.wrapWithBackground(content)
+}
+
+// wrapWithBackground applies terminal background if the theme requires it
+func (a *App) wrapWithBackground(content string) string {
+	if theme.GetCurrentTheme().ShouldUseTerminalBackground() {
+		// Create a background that fills the entire terminal
+		backgroundStyle := lipgloss.NewStyle().
 			Width(a.width).
 			Height(a.height).
+			Background(theme.GetCurrentTheme().TerminalBackground()).
 			AlignHorizontal(lipgloss.Center).
-			AlignVertical(lipgloss.Center).
-			Render(content)
-	}
+			AlignVertical(lipgloss.Center)
 
+		return backgroundStyle.Render(content)
+	}
 	return content
 }
 

@@ -1,8 +1,7 @@
 package cmd
 
 import (
-	"fmt"
-
+	"github.com/charmbracelet/lipgloss/v2"
 	"github.com/jakmaz/arcade/internal/core"
 	"github.com/spf13/cobra"
 )
@@ -23,10 +22,10 @@ var listCmd = &cobra.Command{
 func listGames() {
 	games := core.AvailableGames()
 
-	fmt.Println("Available Games:")
-	fmt.Println()
+	lipgloss.Println("Available Games:")
+	lipgloss.Println()
 
 	for _, game := range games {
-		fmt.Printf("  %-12s %s\n", game.ID, game.Description)
+		lipgloss.Printf("  %-12s %s\n", game.ID, game.Description)
 	}
 }
