@@ -45,10 +45,10 @@ arcade --version           # Show version information
 
 | Game | Description | Preview |
 |------|-------------|---------|
-| **Snake** | Classic snake game - eat food, grow longer, avoid walls | <img src="assets/screenshots/snake.png" width="200" alt="Snake"> |
-| **Tetris** | Block puzzle game with falling pieces and line clearing | <img src="assets/screenshots/tetris.png" width="200" alt="Tetris"> |
-| **Chess** | Strategic board game with full piece movement | <img src="assets/screenshots/chess.png" width="200" alt="Chess"> |
-| **Tic-Tac-Toe** | Classic X's and O's game | <img src="assets/screenshots/tictactoe.png" width="200" alt="Tic-Tac-Toe"> |
+| **Snake** | Classic snake game - eat food, grow longer, avoid walls | <img src="assets/screenshots/snake.png" width="300" alt="Snake"> |
+| **Tetris** | Block puzzle game with falling pieces and line clearing | <img src="assets/screenshots/tetris.png" width="300" alt="Tetris"> |
+| **Chess** | Strategic board game with full piece movement | <img src="assets/screenshots/chess.png" width="300" alt="Chess"> |
+| **Tic-Tac-Toe** | Classic X's and O's game | <img src="assets/screenshots/tictactoe.png" width="300" alt="Tic-Tac-Toe"> |
 
 ## Themes
 
