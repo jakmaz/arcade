@@ -5,6 +5,8 @@ import (
 	"path/filepath"
 	"sort"
 	"sync"
+
+	"github.com/jakmaz/arcade/internal/data"
 )
 
 // Manager handles theme registration and switching
@@ -22,6 +24,31 @@ var globalManager = &Manager{
 // GetManager returns the global theme manager
 func GetManager() *Manager {
 	return globalManager
+}
+
+// Initialize loads themes from standard locations
+func (m *Manager) Initialize() error {
+	// Register built-in themes first
+	m.RegisterTheme(SystemTheme())
+
+	// Get executable directory for built-in themes
+	execPath, err := getCurrentExecutableDir()
+	if err == nil {
+		builtinDir := filepath.Join(execPath, "themes")
+		m.LoadThemesFromDirectories(builtinDir)
+	}
+
+	// Load built-in themes from the source code location (for development)
+	m.LoadThemesFromDirectories("internal/theme/themes")
+
+	if savedTheme := data.LoadCurrentTheme(); savedTheme != "" {
+		if err := m.SetCurrentTheme(savedTheme); err != nil {
+			// Theme not found, keep default but don't error
+		}
+	}
+
+	// If no themes were loaded, we already have default theme registered
+	return nil
 }
 
 // RegisterTheme adds a theme to the registry
@@ -50,6 +77,9 @@ func (m *Manager) SetCurrentTheme(name string) error {
 	theme, exists := m.themes[name]
 	if !exists {
 		return fmt.Errorf("theme '%s' not found", name)
+	}
+	if err := data.SaveCurrentTheme(name); err != nil {
+		return fmt.Errorf("failed to save theme preference: %w", err)
 	}
 
 	m.currentTheme = theme
@@ -104,26 +134,6 @@ func (m *Manager) LoadThemesFromDirectories(dirs ...string) error {
 		}
 	}
 
-	return nil
-}
-
-// Initialize loads themes from standard locations
-func (m *Manager) Initialize() error {
-	// Register built-in themes first
-	m.RegisterTheme(NewDefaultTheme())
-	m.RegisterTheme(NewSystemTheme())
-
-	// Get executable directory for built-in themes
-	execPath, err := getCurrentExecutableDir()
-	if err == nil {
-		builtinDir := filepath.Join(execPath, "themes")
-		m.LoadThemesFromDirectories(builtinDir)
-	}
-
-	// Load built-in themes from the source code location (for development)
-	m.LoadThemesFromDirectories("internal/theme/themes")
-
-	// If no themes were loaded, we already have default theme registered
 	return nil
 }
 

@@ -2,54 +2,8 @@ package theme
 
 import "github.com/charmbracelet/lipgloss"
 
-// NewDefaultTheme creates a default theme with sensible colors
-func NewDefaultTheme() Theme {
-	return &BaseTheme{
-		name: "default",
-
-		// UI Colors
-		primary:   lipgloss.Color("#ffffff"),
-		secondary: lipgloss.Color("#888888"),
-		accent:    lipgloss.Color("#0066cc"),
-		success:   lipgloss.Color("#22c55e"),
-		warning:   lipgloss.Color("#f59e0b"),
-		error:     lipgloss.Color("#ef4444"),
-
-		// Game Board Colors
-		boardBorder:     lipgloss.Color("#888888"),
-		boardBackground: lipgloss.Color(""),
-		cellBorder:      lipgloss.Color("#888888"),
-		cellBackground:  lipgloss.Color(""),
-		selectedCell:    lipgloss.Color("#0066cc"),
-
-		// Game Piece Colors
-		player1:   lipgloss.Color("#22c55e"),
-		player2:   lipgloss.Color("#ef4444"),
-		snakeBody: lipgloss.Color("#22c55e"),
-		snakeHead: lipgloss.Color("#0066cc"),
-		food:      lipgloss.Color("#ef4444"),
-
-		// Chess Piece Colors
-		whitePiece: lipgloss.Color("#ffffff"),
-		blackPiece: lipgloss.Color("#444444"),
-
-		// Tetris Colors
-		tetrisI: lipgloss.Color("#00f5ff"),
-		tetrisO: lipgloss.Color("#ffff00"),
-		tetrisT: lipgloss.Color("#800080"),
-		tetrisS: lipgloss.Color("#00ff00"),
-		tetrisZ: lipgloss.Color("#ff0000"),
-		tetrisJ: lipgloss.Color("#0000ff"),
-		tetrisL: lipgloss.Color("#ffa500"),
-
-		// Terminal Background
-		terminalBackground:    lipgloss.Color("#1a1a1a"),
-		useTerminalBackground: true,
-	}
-}
-
 // NewSystemTheme creates a system theme that adapts to terminal background
-func NewSystemTheme() Theme {
+func SystemTheme() Theme {
 	return &BaseTheme{
 		name: "system",
 
