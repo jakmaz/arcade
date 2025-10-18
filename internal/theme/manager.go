@@ -156,8 +156,8 @@ func SetCurrentTheme(name string) error {
 	return globalManager.SetCurrentTheme(name)
 }
 
-// GetCurrentTheme returns the currently active theme from the global manager
-func GetCurrentTheme() Theme {
+// CurrentTheme returns the currently active theme from the global manager
+func CurrentTheme() Theme {
 	return globalManager.GetCurrentTheme()
 }
 

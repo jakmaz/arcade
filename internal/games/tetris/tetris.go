@@ -107,7 +107,7 @@ func (m *Model) View() string {
 		help,
 	)
 
-	return lipgloss.Place(m.width, m.height, lipgloss.Center, lipgloss.Center, content)
+	return content
 }
 
 func (m *Model) renderBoard() string {

@@ -69,7 +69,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (m model) cycleToPreviousTheme() tea.Cmd {
 	return func() tea.Msg {
 		availableThemes := theme.ListThemes()
-		currentName := theme.GetCurrentTheme().Name()
+		currentName := theme.CurrentTheme().Name()
 
 		// Find current theme index
 		currentIndex := -1
@@ -94,7 +94,7 @@ func (m model) cycleToPreviousTheme() tea.Cmd {
 func (m model) cycleToNextTheme() tea.Cmd {
 	return func() tea.Msg {
 		availableThemes := theme.ListThemes()
-		currentName := theme.GetCurrentTheme().Name()
+		currentName := theme.CurrentTheme().Name()
 
 		// Find current theme index
 		currentIndex := -1
@@ -147,7 +147,7 @@ func (m model) View() string {
 	items = append(items, styles.GetMenuItemStyle().Render("──────────────────────────────────────"))
 
 	// Add theme display (just UI)
-	currentTheme := theme.GetCurrentTheme()
+	currentTheme := theme.CurrentTheme()
 	themeDisplay := fmt.Sprintf(" Theme: ← %s → ", currentTheme.Name())
 	items = append(items, styles.GetMenuItemStyle().Render(themeDisplay))
 	help := styles.GetHelpStyle().Render("↑/↓ to move, ←/→ to change theme, Enter to select, q to quit")

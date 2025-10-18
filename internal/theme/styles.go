@@ -13,7 +13,7 @@ type Styles struct {
 
 // NewStyles creates a new Styles instance using the current theme
 func NewStyles() *Styles {
-	return &Styles{theme: GetCurrentTheme()}
+	return &Styles{theme: CurrentTheme()}
 }
 
 // NewStylesWithTheme creates a new Styles instance using a specific theme
@@ -175,9 +175,10 @@ func (s *Styles) ErrorStyle() lipgloss.Style {
 
 // Terminal Background Style
 func (s *Styles) TerminalBackgroundStyle() lipgloss.Style {
-	if s.theme.ShouldUseTerminalBackground() {
+	bg := s.theme.Background()
+	if bg != lipgloss.Color("") {
 		return lipgloss.NewStyle().
-			Background(s.theme.TerminalBackground()).
+			Background(bg).
 			AlignHorizontal(lipgloss.Center).
 			AlignVertical(lipgloss.Center)
 	}

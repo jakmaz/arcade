@@ -44,8 +44,7 @@ type Theme interface {
 	TetrisL() color.Color
 
 	// Terminal Background
-	TerminalBackground() color.Color
-	ShouldUseTerminalBackground() bool
+	Background() color.Color
 }
 
 // BaseTheme provides default implementations
@@ -83,8 +82,7 @@ type BaseTheme struct {
 	tetrisJ color.Color
 	tetrisL color.Color
 
-	terminalBackground    color.Color
-	useTerminalBackground bool
+	terminalBackground color.Color
 }
 
 func (t *BaseTheme) Name() string { return t.name }
@@ -125,5 +123,4 @@ func (t *BaseTheme) TetrisJ() color.Color { return t.tetrisJ }
 func (t *BaseTheme) TetrisL() color.Color { return t.tetrisL }
 
 // Terminal Background
-func (t *BaseTheme) TerminalBackground() color.Color   { return t.terminalBackground }
-func (t *BaseTheme) ShouldUseTerminalBackground() bool { return t.useTerminalBackground }
+func (t *BaseTheme) Background() color.Color { return t.terminalBackground }

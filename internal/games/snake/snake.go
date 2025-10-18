@@ -148,5 +148,3 @@ func (m *Model) renderBoard() string {
 
 	return strings.Join(rows, "\n")
 }
-
-type tickMsg struct{}

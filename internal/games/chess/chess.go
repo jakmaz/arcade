@@ -5,7 +5,6 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss/v2"
-	"github.com/jakmaz/arcade/internal/theme"
 	"github.com/jakmaz/arcade/internal/ui/styles"
 )
 
@@ -71,16 +70,7 @@ func (m *Model) View() string {
 		help,
 	)
 
-	// Apply background directly if theme requires it, then place
-	if theme.GetCurrentTheme().ShouldUseTerminalBackground() {
-		backgroundStyle := styles.GetTerminalBackgroundStyle()
-		return backgroundStyle.
-			Width(m.width).
-			Height(m.height).
-			Render(content)
-	}
-
-	return lipgloss.Place(m.width, m.height, lipgloss.Center, lipgloss.Center, content)
+	return content
 }
 
 func (m *Model) renderBoard() string {
@@ -115,5 +105,3 @@ func (m *Model) renderBoard() string {
 
 	return strings.Join(rows, "\n")
 }
-
-type tickMsg struct{}

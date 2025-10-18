@@ -139,169 +139,48 @@ func createThemeFromDefinition(def *ThemeDefinition) (*BaseTheme, error) {
 		return lipgloss.Color(colorStr)
 	}
 
-	// UI Colors with fallbacks
-	if def.UI.Primary != "" {
-		theme.primary = resolveColor(def.UI.Primary)
-	} else {
-		theme.primary = lipgloss.Color("#ffffff")
-	}
+	// UI Colors - no fallbacks, YAML themes must be complete
+	theme.primary = resolveColor(def.UI.Primary)
+	theme.secondary = resolveColor(def.UI.Secondary)
+	theme.accent = resolveColor(def.UI.Accent)
+	theme.success = resolveColor(def.UI.Success)
+	theme.warning = resolveColor(def.UI.Warning)
+	theme.error = resolveColor(def.UI.Error)
 
-	if def.UI.Secondary != "" {
-		theme.secondary = resolveColor(def.UI.Secondary)
-	} else {
-		theme.secondary = lipgloss.Color("#888888")
-	}
-
-	if def.UI.Accent != "" {
-		theme.accent = resolveColor(def.UI.Accent)
-	} else {
-		theme.accent = lipgloss.Color("#0066cc")
-	}
-
-	if def.UI.Success != "" {
-		theme.success = resolveColor(def.UI.Success)
-	} else {
-		theme.success = lipgloss.Color("#22c55e")
-	}
-
-	if def.UI.Warning != "" {
-		theme.warning = resolveColor(def.UI.Warning)
-	} else {
-		theme.warning = lipgloss.Color("#f59e0b")
-	}
-
-	if def.UI.Error != "" {
-		theme.error = resolveColor(def.UI.Error)
-	} else {
-		theme.error = lipgloss.Color("#ef4444")
-	}
-
-	// Board Colors with fallbacks
-	if def.Board.Border != "" {
-		theme.boardBorder = resolveColor(def.Board.Border)
-	} else {
-		theme.boardBorder = theme.secondary
-	}
-
-	if def.Board.Background != "" {
-		theme.boardBackground = resolveColor(def.Board.Background)
-	} else {
-		theme.boardBackground = lipgloss.Color("")
-	}
-
-	if def.Board.CellBorder != "" {
-		theme.cellBorder = resolveColor(def.Board.CellBorder)
-	} else {
-		theme.cellBorder = theme.secondary
-	}
-
-	if def.Board.CellBackground != "" {
-		theme.cellBackground = resolveColor(def.Board.CellBackground)
-	} else {
-		theme.cellBackground = lipgloss.Color("")
-	}
-
-	if def.Board.SelectedCell != "" {
-		theme.selectedCell = resolveColor(def.Board.SelectedCell)
-	} else {
-		theme.selectedCell = theme.accent
-	}
+	// Board Colors
+	theme.boardBorder = resolveColor(def.Board.Border)
+	theme.boardBackground = resolveColor(def.Board.Background)
+	theme.cellBorder = resolveColor(def.Board.CellBorder)
+	theme.cellBackground = resolveColor(def.Board.CellBackground)
+	theme.selectedCell = resolveColor(def.Board.SelectedCell)
 
 	// Game Colors - TicTacToe
-	if def.Games.Tictactoe.Player1 != "" {
-		theme.player1 = resolveColor(def.Games.Tictactoe.Player1)
-	} else {
-		theme.player1 = lipgloss.Color("#22c55e")
-	}
-
-	if def.Games.Tictactoe.Player2 != "" {
-		theme.player2 = resolveColor(def.Games.Tictactoe.Player2)
-	} else {
-		theme.player2 = lipgloss.Color("#ef4444")
-	}
+	theme.player1 = resolveColor(def.Games.Tictactoe.Player1)
+	theme.player2 = resolveColor(def.Games.Tictactoe.Player2)
 
 	// Game Colors - Snake
-	if def.Games.Snake.Body != "" {
-		theme.snakeBody = resolveColor(def.Games.Snake.Body)
-	} else {
-		theme.snakeBody = theme.success
-	}
-
-	if def.Games.Snake.Head != "" {
-		theme.snakeHead = resolveColor(def.Games.Snake.Head)
-	} else {
-		theme.snakeHead = theme.accent
-	}
-
-	if def.Games.Snake.Food != "" {
-		theme.food = resolveColor(def.Games.Snake.Food)
-	} else {
-		theme.food = lipgloss.Color("#ef4444")
-	}
+	theme.snakeBody = resolveColor(def.Games.Snake.Body)
+	theme.snakeHead = resolveColor(def.Games.Snake.Head)
+	theme.food = resolveColor(def.Games.Snake.Food)
 
 	// Game Colors - Chess
-	if def.Games.Chess.WhitePieces != "" {
-		theme.whitePiece = resolveColor(def.Games.Chess.WhitePieces)
-	} else {
-		theme.whitePiece = lipgloss.Color("#ffffff")
-	}
-
-	if def.Games.Chess.BlackPieces != "" {
-		theme.blackPiece = resolveColor(def.Games.Chess.BlackPieces)
-	} else {
-		theme.blackPiece = lipgloss.Color("#444444")
-	}
+	theme.whitePiece = resolveColor(def.Games.Chess.WhitePieces)
+	theme.blackPiece = resolveColor(def.Games.Chess.BlackPieces)
 
 	// Game Colors - Tetris
-	if def.Games.Tetris.IPiece != "" {
-		theme.tetrisI = resolveColor(def.Games.Tetris.IPiece)
-	} else {
-		theme.tetrisI = lipgloss.Color("#00f5ff")
-	}
-
-	if def.Games.Tetris.OPiece != "" {
-		theme.tetrisO = resolveColor(def.Games.Tetris.OPiece)
-	} else {
-		theme.tetrisO = lipgloss.Color("#ffff00")
-	}
-
-	if def.Games.Tetris.TPiece != "" {
-		theme.tetrisT = resolveColor(def.Games.Tetris.TPiece)
-	} else {
-		theme.tetrisT = lipgloss.Color("#800080")
-	}
-
-	if def.Games.Tetris.SPiece != "" {
-		theme.tetrisS = resolveColor(def.Games.Tetris.SPiece)
-	} else {
-		theme.tetrisS = lipgloss.Color("#00ff00")
-	}
-
-	if def.Games.Tetris.ZPiece != "" {
-		theme.tetrisZ = resolveColor(def.Games.Tetris.ZPiece)
-	} else {
-		theme.tetrisZ = lipgloss.Color("#ff0000")
-	}
-
-	if def.Games.Tetris.JPiece != "" {
-		theme.tetrisJ = resolveColor(def.Games.Tetris.JPiece)
-	} else {
-		theme.tetrisJ = lipgloss.Color("#0000ff")
-	}
-
-	if def.Games.Tetris.LPiece != "" {
-		theme.tetrisL = resolveColor(def.Games.Tetris.LPiece)
-	} else {
-		theme.tetrisL = lipgloss.Color("#ffa500")
-	}
+	theme.tetrisI = resolveColor(def.Games.Tetris.IPiece)
+	theme.tetrisO = resolveColor(def.Games.Tetris.OPiece)
+	theme.tetrisT = resolveColor(def.Games.Tetris.TPiece)
+	theme.tetrisS = resolveColor(def.Games.Tetris.SPiece)
+	theme.tetrisZ = resolveColor(def.Games.Tetris.ZPiece)
+	theme.tetrisJ = resolveColor(def.Games.Tetris.JPiece)
+	theme.tetrisL = resolveColor(def.Games.Tetris.LPiece)
 
 	// Terminal Background
-	if bgColor, exists := def.Palette["bg"]; exists {
+	if bgColor, exists := def.Palette["bg"]; exists && bgColor != "" {
 		theme.terminalBackground = resolveColor(bgColor)
-		theme.useTerminalBackground = true
 	} else {
 		theme.terminalBackground = lipgloss.Color("")
-		theme.useTerminalBackground = false
 	}
 
 	return theme, nil

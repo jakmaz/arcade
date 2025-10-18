@@ -4,7 +4,6 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss/v2"
 	"github.com/jakmaz/arcade/internal/core"
-	"github.com/jakmaz/arcade/internal/theme"
 	"github.com/jakmaz/arcade/internal/ui/styles"
 )
 
@@ -112,24 +111,8 @@ func (a *App) View() string {
 		content = a.currentGame.View()
 	}
 
-	// Apply centralized background handling
-	return a.wrapWithBackground(content)
-}
-
-// wrapWithBackground applies terminal background if the theme requires it
-func (a *App) wrapWithBackground(content string) string {
-	if theme.GetCurrentTheme().ShouldUseTerminalBackground() {
-		// Create a background that fills the entire terminal
-		backgroundStyle := lipgloss.NewStyle().
-			Width(a.width).
-			Height(a.height).
-			Background(theme.GetCurrentTheme().TerminalBackground()).
-			AlignHorizontal(lipgloss.Center).
-			AlignVertical(lipgloss.Center)
-
-		return backgroundStyle.Render(content)
-	}
-	return content
+	// Simple centering - same as menu does
+	return lipgloss.Place(a.width, a.height, lipgloss.Center, lipgloss.Center, content)
 }
 
 func (a *App) updateMenu(msg tea.Msg) (tea.Model, tea.Cmd) {

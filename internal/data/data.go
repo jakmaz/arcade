@@ -78,12 +78,12 @@ func SaveData(data *AppData) error {
 func LoadCurrentTheme() string {
 	data, err := LoadData()
 	if err != nil {
-		// File doesn't exist or corrupted - return default
-		return "default"
+		// File doesn't exist or corrupted - return system theme
+		return "system"
 	}
 
 	if data.Settings.CurrentTheme == "" {
-		return "default"
+		return "system"
 	}
 
 	return data.Settings.CurrentTheme
@@ -126,7 +126,7 @@ func UpdateGameStats(game string, stats *GameStats) error {
 		// Create default data if file doesn't exist
 		data = &AppData{
 			Version:  CurrentDataVersion,
-			Settings: Settings{CurrentTheme: "default"},
+			Settings: Settings{CurrentTheme: "system"},
 			Stats:    make(map[string]GameStats),
 		}
 	}

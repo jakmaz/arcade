@@ -28,7 +28,7 @@ var listThemesCmd = &cobra.Command{
 		}
 
 		themes := theme.ListThemes()
-		currentTheme := theme.GetCurrentTheme()
+		currentTheme := theme.CurrentTheme()
 
 		lipgloss.Println("Available themes:")
 		for _, name := range themes {
