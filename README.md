@@ -69,7 +69,8 @@ arcade random
 
 ## Contributing
 
-Arcade welcomes contributions! Whether you want to add new games, new themes, fix bugs, or improve the UI, your help is appreciated.
+Arcade welcomes contributions! Whether you want to add new games, new themes, fix bugs, or improve the UI, your help is higly appreciated.
+The ultimate goal is to make `arcade` an amazing comunity-driven game collection for your terminal.
 
 ### Adding a New Game
 

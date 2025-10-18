@@ -1,11 +1,13 @@
 package ui
 
 import (
+	"fmt"
 	"strings"
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/jakmaz/arcade/internal/core"
+	"github.com/jakmaz/arcade/internal/theme"
 	"github.com/jakmaz/arcade/internal/ui/styles"
 )
 
@@ -17,6 +19,9 @@ type model struct {
 }
 
 func NewMenu() model {
+	// Initialize theme system
+	theme.Initialize()
+
 	return model{
 		games: core.AvailableGames(),
 	}
@@ -35,23 +40,86 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		switch msg.String() {
 		case "ctrl+c", "q":
 			return m, tea.Quit
+
 		case "up", "k":
-			if m.cursor > 0 {
+			if m.cursor == 0 {
+				m.cursor = len(m.games) - 1
+			} else {
 				m.cursor--
 			}
 		case "down", "j":
-			if m.cursor < len(m.games)-1 {
+			if m.cursor == len(m.games)-1 {
+				m.cursor = 0
+			} else {
 				m.cursor++
 			}
+		case "left", "h":
+			return m, m.cycleToPreviousTheme()
+		case "right", "l":
+			return m, m.cycleToNextTheme()
 		case "enter":
-			games := core.AvailableGames()
-			selected := games[m.cursor]
+			selected := m.games[m.cursor] // Direct access to GameInfo
 			return m, func() tea.Msg {
 				return StartGameMsg{GameID: selected.ID}
 			}
 		}
 	}
 	return m, nil
+}
+
+func (m model) cycleToPreviousTheme() tea.Cmd {
+	return func() tea.Msg {
+		availableThemes := theme.ListThemes()
+		currentName := theme.GetCurrentTheme().Name()
+
+		// Find current theme index
+		currentIndex := -1
+		for i, name := range availableThemes {
+			if name == currentName {
+				currentIndex = i
+				break
+			}
+		}
+
+		// Get previous theme (wrap around)
+		prevIndex := (currentIndex - 1 + len(availableThemes)) % len(availableThemes)
+		newTheme := availableThemes[prevIndex]
+
+		// Set the new theme
+		theme.SetCurrentTheme(newTheme)
+
+		return ThemeChangedMsg{ThemeName: newTheme}
+	}
+}
+
+func (m model) cycleToNextTheme() tea.Cmd {
+	return func() tea.Msg {
+		availableThemes := theme.ListThemes()
+		currentName := theme.GetCurrentTheme().Name()
+
+		// Find current theme index
+		currentIndex := -1
+		for i, name := range availableThemes {
+			if name == currentName {
+				currentIndex = i
+				break
+			}
+		}
+
+		// Get next theme (wrap around)
+		nextIndex := (currentIndex + 1) % len(availableThemes)
+		newTheme := availableThemes[nextIndex]
+
+		// Set the new theme
+		theme.SetCurrentTheme(newTheme)
+
+		return ThemeChangedMsg{ThemeName: newTheme}
+	}
+}
+
+// ThemeChangedMsg indicates a theme was changed
+type ThemeChangedMsg struct {
+	ThemeName string
 }
 
 func (m model) View() string {
@@ -65,17 +133,25 @@ func (m model) View() string {
 	title := styles.GetTitleStyle().Render(asciiArt)
 
 	var items []string
-	for i, g := range m.games {
+	// Render games with cursor
+	for i, game := range m.games {
 		style := styles.GetMenuItemStyle()
 		cursor := " "
 		if m.cursor == i {
 			style = styles.GetSelectedItemStyle()
 			cursor = "> "
 		}
-		items = append(items, style.Render(cursor+g.Name+" — "+g.Description))
+		items = append(items, style.Render(cursor+game.Name+" — "+game.Description))
 	}
 
-	help := styles.GetHelpStyle().Render("↑/↓ to move, Enter to select, q to quit")
+	// Add separator (just UI)
+	items = append(items, styles.GetMenuItemStyle().Render("──────────────────────────────────────"))
+
+	// Add theme display (just UI)
+	currentTheme := theme.GetCurrentTheme()
+	themeDisplay := fmt.Sprintf(" Theme: ← %s → ", currentTheme.Name())
+	items = append(items, styles.GetMenuItemStyle().Render(themeDisplay))
+	help := styles.GetHelpStyle().Render("↑/↓ to move, ←/→ to change theme, Enter to select, q to quit")
 
 	// Center everything
 	content := lipgloss.JoinVertical(lipgloss.Center,

@@ -87,6 +87,11 @@ func (a *App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		a.state = MenuState
 		a.currentGame = nil
 		return a, nil
+
+	case ThemeChangedMsg:
+		// Theme was changed, just let the view re-render with new theme
+		// The styles will automatically pick up the new theme
+		return a, nil
 	}
 
 	// Delegate to current state
@@ -114,6 +119,9 @@ func (a *App) updateMenu(msg tea.Msg) (tea.Model, tea.Cmd) {
 		if msg := cmd(); msg != nil {
 			if startMsg, ok := msg.(StartGameMsg); ok {
 				return a.Update(startMsg)
+			}
+			if themeMsg, ok := msg.(ThemeChangedMsg); ok {
+				return a.Update(themeMsg)
 			}
 		}
 	}
