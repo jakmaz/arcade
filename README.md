@@ -1,4 +1,4 @@
-# Arcade
+![Arcade](https://raw.githubusercontent.com/jakmaz/arcade/main/assets/arcade.png)
 
 **Arcade** is a collection of classic games for your terminal, written in Go using [Bubble Tea](https://github.com/charmbracelet/bubbletea) and [Cobra CLI](https://github.com/spf13/cobra).
 Play Snake, Tetris, Chess, and Tic-Tac-Toe directly from the command line - perfect for quick breaks between coding sessions.
