@@ -5,10 +5,9 @@ Play Snake, Tetris, Chess, and Tic-Tac-Toe directly from the command line - perf
 
 ## Features
 
-* **Multiple Games**: Snake, Tetris, Chess, and Tic-Tac-Toe
 * **Terminal Native**: Runs entirely in your terminal with rich TUI
-* **Adaptive Colors**: Works smoothly with your favorite color schemes
-* **Direct Launch**: Jump straight into games or browse the interactive menu
+* **Multiple Games**: Snake, Tetris, Chess, and Tic-Tac-Toe
+* **Theming System**: 6 built-in themes with support for system theme detection and custom themes
 * **Extensible**: Easy to add new games with consistent UI patterns
 
 ## Installation
@@ -68,12 +67,6 @@ arcade random
 | **Chess** | `arcade chess` | Strategic board game with full piece set |
 | **Tic-Tac-Toe** | `arcade tictactoe` | Classic X's and O's game |
 
-## Built With
-
-- [Bubble Tea](https://github.com/charmbracelet/bubbletea) - Terminal User Interface framework
-- [Lipgloss](https://github.com/charmbracelet/lipgloss) - Styling and layout
-- [Cobra](https://github.com/spf13/cobra) - CLI framework
-
 ## Contributing
 
 Arcade welcomes contributions! Whether you want to add new games, fix bugs, or improve the UI, your help is appreciated.
@@ -97,5 +90,14 @@ Arcade welcomes contributions! Whether you want to add new games, fix bugs, or i
 ```bash
 git clone https://github.com/jakmaz/arcade
 cd arcade
-go run cmd/arcade/main.go
+go run .
 ```
+
+## Acknowledgments
+
+### Theming System
+The theming system in Arcade was inspired by [OpenCode](https://github.com/sst/opencode)'s excellent approach to terminal themes
+
+### Game Implementations and Design
+- **Tetris**: Inspired by [tetrigo](https://github.com/Broderick-Westrope/tetrigo)
+- **Chess**: Inpired by [Gambit](https://github.com/maaslalani/gambit)
