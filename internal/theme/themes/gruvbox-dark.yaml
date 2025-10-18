@@ -1,0 +1,53 @@
+# A warm dark theme with earthy tones
+name: gruvbox-dark
+
+palette:
+  bg: "#282828"
+  fg: "#ebdbb2"
+  red: "#cc241d"
+  green: "#98971a"
+  yellow: "#d79921"
+  blue: "#458588"
+  purple: "#b16286"
+  aqua: "#689d6a"
+  orange: "#d65d0e"
+  gray: "#928374"
+
+ui:
+  primary: fg
+  secondary: gray
+  accent: blue
+  success: green
+  warning: yellow
+  error: red
+
+board:
+  border: gray
+  background: none
+  cellBorder: gray
+  cellBackground: none
+  selectedCell: blue
+
+games:
+  chess:
+    whitePieces: fg
+    blackPieces: gray
+
+  snake:
+    body: green
+    head: blue
+    food: red
+
+  tetris:
+    iPiece: aqua
+    oPiece: yellow
+    tPiece: purple
+    sPiece: green
+    zPiece: red
+    jPiece: blue
+    lPiece: orange
+
+  tictactoe:
+    player1: green
+    player2: red
+

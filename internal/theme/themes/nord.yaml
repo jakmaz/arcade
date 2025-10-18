@@ -1,0 +1,59 @@
+# A cool dark theme inspired by the Arctic with blues and grays
+name: nord
+
+palette:
+  nord0: "#2e3440"
+  nord1: "#3b4252"
+  nord2: "#434c5e"
+  nord3: "#4c566a"
+  nord4: "#d8dee9"
+  nord5: "#e5e9f0"
+  nord6: "#eceff4"
+  nord7: "#8fbcbb"
+  nord8: "#88c0d0"
+  nord9: "#81a1c1"
+  nord10: "#5e81ac"
+  nord11: "#bf616a"
+  nord12: "#d08770"
+  nord13: "#ebcb8b"
+  nord14: "#a3be8c"
+  nord15: "#b48ead"
+
+ui:
+  primary: nord4
+  secondary: nord3
+  accent: nord8
+  success: nord14
+  warning: nord13
+  error: nord11
+
+board:
+  border: nord3
+  background: none
+  cellBorder: nord3
+  cellBackground: none
+  selectedCell: nord8
+
+games:
+  chess:
+    whitePieces: nord4
+    blackPieces: nord3
+
+  snake:
+    body: nord14
+    head: nord8
+    food: nord11
+
+  tetris:
+    iPiece: nord8
+    oPiece: nord13
+    tPiece: nord15
+    sPiece: nord14
+    zPiece: nord11
+    jPiece: nord10
+    lPiece: nord12
+
+  tictactoe:
+    player1: nord14
+    player2: nord11
+

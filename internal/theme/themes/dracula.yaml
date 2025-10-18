@@ -1,0 +1,52 @@
+# A dark theme inspired by the popular Dracula color scheme
+name: dracula
+
+palette:
+  bg: "#282a36"
+  fg: "#f8f8f2"
+  comment: "#6272a4"
+  cyan: "#8be9fd"
+  green: "#50fa7b"
+  orange: "#ffb86c"
+  pink: "#ff79c6"
+  purple: "#bd93f9"
+  red: "#ff5555"
+  yellow: "#f1fa8c"
+
+ui:
+  primary: fg
+  secondary: comment
+  accent: purple
+  success: green
+  warning: yellow
+  error: red
+
+board:
+  border: comment
+  background: none
+  cellBorder: comment
+  cellBackground: none
+  selectedCell: purple
+
+games:
+  chess:
+    whitePieces: fg
+    blackPieces: comment
+
+  snake:
+    body: green
+    head: purple
+    food: red
+
+  tetris:
+    iPiece: cyan
+    oPiece: yellow
+    tPiece: purple
+    sPiece: green
+    zPiece: red
+    jPiece: pink
+    lPiece: orange
+
+  tictactoe:
+    player1: green
+    player2: red

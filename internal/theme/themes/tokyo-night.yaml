@@ -1,0 +1,53 @@
+# A clean dark theme inspired by the Tokyo cityscape at night
+name: tokyo-night
+
+palette:
+  bg: "#1a1b26"
+  fg: "#c0caf5"
+  comment: "#565f89"
+  cyan: "#7dcfff"
+  blue: "#7aa2f7"
+  purple: "#bb9af7"
+  green: "#9ece6a"
+  orange: "#ff9e64"
+  red: "#f7768e"
+  yellow: "#e0af68"
+
+ui:
+  primary: fg
+  secondary: comment
+  accent: cyan
+  success: green
+  warning: yellow
+  error: red
+
+board:
+  border: comment
+  background: none
+  cellBorder: comment
+  cellBackground: none
+  selectedCell: cyan
+
+games:
+  chess:
+    whitePieces: fg
+    blackPieces: comment
+
+  snake:
+    body: green
+    head: cyan
+    food: red
+
+  tetris:
+    iPiece: cyan
+    oPiece: yellow
+    tPiece: purple
+    sPiece: green
+    zPiece: red
+    jPiece: blue
+    lPiece: orange
+
+  tictactoe:
+    player1: green
+    player2: red
+

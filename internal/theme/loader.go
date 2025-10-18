@@ -1,50 +1,74 @@
 package theme
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
 
 	"github.com/charmbracelet/lipgloss"
+	"gopkg.in/yaml.v3"
 )
 
-// ThemeDefinition represents the JSON structure for theme files
+// ThemeDefinition represents the YAML structure for theme files
 type ThemeDefinition struct {
-	Name  string                `json:"name"`
-	Defs  map[string]string     `json:"defs"`
-	Theme map[string]ColorValue `json:"theme"`
+	Name    string
+	Palette map[string]string
+	UI      UIColors
+	Board   BoardColors
+	Games   GameColors
 }
 
-// ColorValue can be either a string or an object with dark/light variants
-type ColorValue struct {
-	Dark  string `json:"dark,omitempty"`
-	Light string `json:"light,omitempty"`
-	Value string `json:"-"` // For simple string values
+type UIColors struct {
+	Primary   string
+	Secondary string
+	Accent    string
+	Success   string
+	Warning   string
+	Error     string
 }
 
-// UnmarshalJSON handles both string and object color values
-func (cv *ColorValue) UnmarshalJSON(data []byte) error {
-	// Try to unmarshal as string first
-	var str string
-	if err := json.Unmarshal(data, &str); err == nil {
-		cv.Value = str
-		return nil
-	}
-
-	// Try to unmarshal as object
-	type colorValueAlias ColorValue
-	var obj colorValueAlias
-	if err := json.Unmarshal(data, &obj); err != nil {
-		return err
-	}
-
-	cv.Dark = obj.Dark
-	cv.Light = obj.Light
-	return nil
+type BoardColors struct {
+	Border         string
+	Background     string
+	CellBorder     string
+	CellBackground string
+	SelectedCell   string
 }
 
-// LoadThemeFromFile loads a theme from a JSON file
+type GameColors struct {
+	Chess     ChessColors
+	Snake     SnakeColors
+	Tetris    TetrisColors
+	Tictactoe TicTacToeColors
+}
+
+type ChessColors struct {
+	WhitePieces string
+	BlackPieces string
+}
+
+type SnakeColors struct {
+	Body string
+	Head string
+	Food string
+}
+
+type TetrisColors struct {
+	IPiece string
+	OPiece string
+	TPiece string
+	SPiece string
+	ZPiece string
+	JPiece string
+	LPiece string
+}
+
+type TicTacToeColors struct {
+	Player1 string
+	Player2 string
+}
+
+// LoadThemeFromFile loads a theme from a YAML file
 func LoadThemeFromFile(path string) (Theme, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
@@ -52,14 +76,17 @@ func LoadThemeFromFile(path string) (Theme, error) {
 	}
 
 	var def ThemeDefinition
-	if err := json.Unmarshal(data, &def); err != nil {
+	if err := yaml.Unmarshal(data, &def); err != nil {
 		return nil, fmt.Errorf("failed to parse theme file %s: %w", path, err)
 	}
 
 	return createThemeFromDefinition(&def)
 }
 
-// LoadThemesFromDirectory loads all theme files from a directory
+// LoadThemesFromDirectories loads themes from user directories in the correct override order.
+// The hierarchy is (from lowest to highest priority):
+// 1. Built-in themes (embedded)
+// 2. USER_CONFIG/opencode/themes/*.yaml
 func LoadThemesFromDirectory(dir string) ([]Theme, error) {
 	var themes []Theme
 
@@ -73,7 +100,7 @@ func LoadThemesFromDirectory(dir string) ([]Theme, error) {
 	}
 
 	for _, entry := range entries {
-		if entry.IsDir() || filepath.Ext(entry.Name()) != ".json" {
+		if entry.IsDir() || filepath.Ext(entry.Name()) != ".yaml" {
 			continue
 		}
 
@@ -96,21 +123,10 @@ func createThemeFromDefinition(def *ThemeDefinition) (*BaseTheme, error) {
 	theme := &BaseTheme{name: def.Name}
 
 	// Helper function to resolve color references and create lipgloss.TerminalColor
-	resolveColor := func(cv ColorValue) lipgloss.TerminalColor {
-		var colorStr string
-
-		if cv.Value != "" {
-			colorStr = cv.Value
-		} else if cv.Dark != "" {
-			// For now, use dark variant (we can enhance this later for light terminal detection)
-			colorStr = cv.Dark
-		} else if cv.Light != "" {
-			colorStr = cv.Light
-		}
-
-		// Resolve color reference if it starts with a reference
+	resolveColor := func(colorStr string) lipgloss.TerminalColor {
+		// Resolve color reference if it doesn't start with #
 		if colorStr != "" && colorStr[0] != '#' {
-			if refColor, exists := def.Defs[colorStr]; exists {
+			if refColor, exists := def.Palette[colorStr]; exists {
 				colorStr = refColor
 			}
 		}
@@ -122,168 +138,165 @@ func createThemeFromDefinition(def *ThemeDefinition) (*BaseTheme, error) {
 		return lipgloss.Color(colorStr)
 	}
 
-	// Map theme colors with fallbacks
-	if cv, exists := def.Theme["primary"]; exists {
-		theme.primary = resolveColor(cv)
+	// UI Colors with fallbacks
+	if def.UI.Primary != "" {
+		theme.primary = resolveColor(def.UI.Primary)
 	} else {
 		theme.primary = lipgloss.Color("#ffffff")
 	}
 
-	if cv, exists := def.Theme["secondary"]; exists {
-		theme.secondary = resolveColor(cv)
+	if def.UI.Secondary != "" {
+		theme.secondary = resolveColor(def.UI.Secondary)
 	} else {
 		theme.secondary = lipgloss.Color("#888888")
 	}
 
-	if cv, exists := def.Theme["accent"]; exists {
-		theme.accent = resolveColor(cv)
+	if def.UI.Accent != "" {
+		theme.accent = resolveColor(def.UI.Accent)
 	} else {
 		theme.accent = lipgloss.Color("#0066cc")
 	}
 
-	if cv, exists := def.Theme["success"]; exists {
-		theme.success = resolveColor(cv)
+	if def.UI.Success != "" {
+		theme.success = resolveColor(def.UI.Success)
 	} else {
 		theme.success = lipgloss.Color("#22c55e")
 	}
 
-	if cv, exists := def.Theme["warning"]; exists {
-		theme.warning = resolveColor(cv)
+	if def.UI.Warning != "" {
+		theme.warning = resolveColor(def.UI.Warning)
 	} else {
 		theme.warning = lipgloss.Color("#f59e0b")
 	}
 
-	if cv, exists := def.Theme["error"]; exists {
-		theme.error = resolveColor(cv)
+	if def.UI.Error != "" {
+		theme.error = resolveColor(def.UI.Error)
 	} else {
 		theme.error = lipgloss.Color("#ef4444")
 	}
 
-	// Game board colors
-	if cv, exists := def.Theme["board_border"]; exists {
-		theme.boardBorder = resolveColor(cv)
+	// Board Colors with fallbacks
+	if def.Board.Border != "" {
+		theme.boardBorder = resolveColor(def.Board.Border)
 	} else {
 		theme.boardBorder = theme.secondary
 	}
 
-	if cv, exists := def.Theme["board_background"]; exists {
-		theme.boardBackground = resolveColor(cv)
+	if def.Board.Background != "" {
+		theme.boardBackground = resolveColor(def.Board.Background)
 	} else {
 		theme.boardBackground = lipgloss.Color("")
 	}
 
-	if cv, exists := def.Theme["cell_border"]; exists {
-		theme.cellBorder = resolveColor(cv)
+	if def.Board.CellBorder != "" {
+		theme.cellBorder = resolveColor(def.Board.CellBorder)
 	} else {
 		theme.cellBorder = theme.secondary
 	}
 
-	if cv, exists := def.Theme["cell_background"]; exists {
-		theme.cellBackground = resolveColor(cv)
+	if def.Board.CellBackground != "" {
+		theme.cellBackground = resolveColor(def.Board.CellBackground)
 	} else {
 		theme.cellBackground = lipgloss.Color("")
 	}
 
-	if cv, exists := def.Theme["selected_cell"]; exists {
-		theme.selectedCell = resolveColor(cv)
+	if def.Board.SelectedCell != "" {
+		theme.selectedCell = resolveColor(def.Board.SelectedCell)
 	} else {
 		theme.selectedCell = theme.accent
 	}
 
-	// Game piece colors
-	if cv, exists := def.Theme["player1"]; exists {
-		theme.player1 = resolveColor(cv)
+	// Game Colors - TicTacToe
+	if def.Games.Tictactoe.Player1 != "" {
+		theme.player1 = resolveColor(def.Games.Tictactoe.Player1)
 	} else {
 		theme.player1 = lipgloss.Color("#22c55e")
 	}
 
-	if cv, exists := def.Theme["player2"]; exists {
-		theme.player2 = resolveColor(cv)
+	if def.Games.Tictactoe.Player2 != "" {
+		theme.player2 = resolveColor(def.Games.Tictactoe.Player2)
 	} else {
 		theme.player2 = lipgloss.Color("#ef4444")
 	}
 
-	if cv, exists := def.Theme["snake_body"]; exists {
-		theme.snakeBody = resolveColor(cv)
+	// Game Colors - Snake
+	if def.Games.Snake.Body != "" {
+		theme.snakeBody = resolveColor(def.Games.Snake.Body)
 	} else {
 		theme.snakeBody = theme.success
 	}
 
-	if cv, exists := def.Theme["snake_head"]; exists {
-		theme.snakeHead = resolveColor(cv)
+	if def.Games.Snake.Head != "" {
+		theme.snakeHead = resolveColor(def.Games.Snake.Head)
 	} else {
 		theme.snakeHead = theme.accent
 	}
 
-	if cv, exists := def.Theme["food"]; exists {
-		theme.food = resolveColor(cv)
+	if def.Games.Snake.Food != "" {
+		theme.food = resolveColor(def.Games.Snake.Food)
 	} else {
 		theme.food = lipgloss.Color("#ef4444")
 	}
 
-	// Chess piece colors
-	if cv, exists := def.Theme["white_piece"]; exists {
-		theme.whitePiece = resolveColor(cv)
+	// Game Colors - Chess
+	if def.Games.Chess.WhitePieces != "" {
+		theme.whitePiece = resolveColor(def.Games.Chess.WhitePieces)
 	} else {
 		theme.whitePiece = lipgloss.Color("#ffffff")
 	}
 
-	if cv, exists := def.Theme["black_piece"]; exists {
-		theme.blackPiece = resolveColor(cv)
+	if def.Games.Chess.BlackPieces != "" {
+		theme.blackPiece = resolveColor(def.Games.Chess.BlackPieces)
 	} else {
 		theme.blackPiece = lipgloss.Color("#444444")
 	}
 
-	// Tetris colors
-	if cv, exists := def.Theme["tetris_i"]; exists {
-		theme.tetrisI = resolveColor(cv)
+	// Game Colors - Tetris
+	if def.Games.Tetris.IPiece != "" {
+		theme.tetrisI = resolveColor(def.Games.Tetris.IPiece)
 	} else {
 		theme.tetrisI = lipgloss.Color("#00f5ff")
 	}
 
-	if cv, exists := def.Theme["tetris_o"]; exists {
-		theme.tetrisO = resolveColor(cv)
+	if def.Games.Tetris.OPiece != "" {
+		theme.tetrisO = resolveColor(def.Games.Tetris.OPiece)
 	} else {
 		theme.tetrisO = lipgloss.Color("#ffff00")
 	}
 
-	if cv, exists := def.Theme["tetris_t"]; exists {
-		theme.tetrisT = resolveColor(cv)
+	if def.Games.Tetris.TPiece != "" {
+		theme.tetrisT = resolveColor(def.Games.Tetris.TPiece)
 	} else {
 		theme.tetrisT = lipgloss.Color("#800080")
 	}
 
-	if cv, exists := def.Theme["tetris_s"]; exists {
-		theme.tetrisS = resolveColor(cv)
+	if def.Games.Tetris.SPiece != "" {
+		theme.tetrisS = resolveColor(def.Games.Tetris.SPiece)
 	} else {
 		theme.tetrisS = lipgloss.Color("#00ff00")
 	}
 
-	if cv, exists := def.Theme["tetris_z"]; exists {
-		theme.tetrisZ = resolveColor(cv)
+	if def.Games.Tetris.ZPiece != "" {
+		theme.tetrisZ = resolveColor(def.Games.Tetris.ZPiece)
 	} else {
 		theme.tetrisZ = lipgloss.Color("#ff0000")
 	}
 
-	if cv, exists := def.Theme["tetris_j"]; exists {
-		theme.tetrisJ = resolveColor(cv)
+	if def.Games.Tetris.JPiece != "" {
+		theme.tetrisJ = resolveColor(def.Games.Tetris.JPiece)
 	} else {
 		theme.tetrisJ = lipgloss.Color("#0000ff")
 	}
 
-	if cv, exists := def.Theme["tetris_l"]; exists {
-		theme.tetrisL = resolveColor(cv)
+	if def.Games.Tetris.LPiece != "" {
+		theme.tetrisL = resolveColor(def.Games.Tetris.LPiece)
 	} else {
 		theme.tetrisL = lipgloss.Color("#ffa500")
 	}
 
 	// Terminal Background
-	if cv, exists := def.Theme["terminal_background"]; exists {
-		theme.terminalBackground = resolveColor(cv)
-		theme.useTerminalBackground = true
-	} else if bgColor, exists := def.Defs["bg"]; exists {
-		// Fallback to the "bg" color from defs if available
-		theme.terminalBackground = resolveColor(ColorValue{Value: bgColor})
+	if bgColor, exists := def.Palette["bg"]; exists {
+		theme.terminalBackground = resolveColor(bgColor)
 		theme.useTerminalBackground = true
 	} else {
 		theme.terminalBackground = lipgloss.Color("")
