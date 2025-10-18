@@ -3,6 +3,7 @@ package ui
 import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/jakmaz/arcade/internal/core"
+	"github.com/jakmaz/arcade/internal/ui/styles"
 )
 
 type AppState int
@@ -89,8 +90,7 @@ func (a *App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		return a, nil
 
 	case ThemeChangedMsg:
-		// Theme was changed, just let the view re-render with new theme
-		// The styles will automatically pick up the new theme
+		styles.RefreshStyles()
 		return a, nil
 	}
 

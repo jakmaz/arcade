@@ -19,7 +19,6 @@ type model struct {
 }
 
 func NewMenu() model {
-	// Initialize theme system
 	theme.Initialize()
 
 	return model{
