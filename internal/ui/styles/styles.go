@@ -18,19 +18,20 @@ var (
 
 // Lazy initialization variables
 var (
-	TitleStyle        lipgloss.Style
-	MenuItemStyle     lipgloss.Style
-	SelectedItemStyle lipgloss.Style
-	HelpStyle         lipgloss.Style
-	CellStyle         lipgloss.Style
-	SelectedCellStyle lipgloss.Style
-	BorderStyle       lipgloss.Style
-	GameOverStyle     lipgloss.Style
-	SidebarStyle      lipgloss.Style
-	WhitePieceStyle   lipgloss.Style
-	BlackPieceStyle   lipgloss.Style
-	SnakeStyle        lipgloss.Style
-	SnakeHeadStyle    lipgloss.Style
+	TitleStyle              lipgloss.Style
+	MenuItemStyle           lipgloss.Style
+	SelectedItemStyle       lipgloss.Style
+	HelpStyle               lipgloss.Style
+	CellStyle               lipgloss.Style
+	SelectedCellStyle       lipgloss.Style
+	BorderStyle             lipgloss.Style
+	GameOverStyle           lipgloss.Style
+	SidebarStyle            lipgloss.Style
+	WhitePieceStyle         lipgloss.Style
+	BlackPieceStyle         lipgloss.Style
+	SnakeStyle              lipgloss.Style
+	SnakeHeadStyle          lipgloss.Style
+	TerminalBackgroundStyle lipgloss.Style
 )
 
 // ensureInitialized makes sure themes are loaded and styles are set
@@ -56,6 +57,7 @@ func ensureInitialized() {
 		BlackPieceStyle = styles.BlackPieceStyle()
 		SnakeStyle = styles.SnakeStyle()
 		SnakeHeadStyle = styles.SnakeHeadStyle()
+		TerminalBackgroundStyle = styles.TerminalBackgroundStyle()
 	}
 }
 
@@ -137,6 +139,12 @@ func GetSnakeHeadStyle() lipgloss.Style {
 	return SnakeHeadStyle
 }
 
+// GetTerminalBackgroundStyle returns the terminal background style, initializing if needed
+func GetTerminalBackgroundStyle() lipgloss.Style {
+	ensureInitialized()
+	return TerminalBackgroundStyle
+}
+
 // RefreshStyles updates all styles with the current theme
 func RefreshStyles() {
 	styles = theme.NewStyles()
@@ -157,6 +165,7 @@ func RefreshStyles() {
 	BlackPieceStyle = styles.BlackPieceStyle()
 	SnakeStyle = styles.SnakeStyle()
 	SnakeHeadStyle = styles.SnakeHeadStyle()
+	TerminalBackgroundStyle = styles.TerminalBackgroundStyle()
 }
 
 // GetStyles returns the current themed styles instance

@@ -2,6 +2,7 @@ package ui
 
 import (
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
 	"github.com/jakmaz/arcade/internal/core"
 	"github.com/jakmaz/arcade/internal/ui/styles"
 )
@@ -103,11 +104,24 @@ func (a *App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (a *App) View() string {
+	var content string
 	if a.state == MenuState {
-		return a.menu.View()
+		content = a.menu.View()
 	} else {
-		return a.currentGame.View()
+		content = a.currentGame.View()
 	}
+
+	// Apply terminal background with full viewport dimensions
+	if a.width > 0 && a.height > 0 {
+		return styles.GetTerminalBackgroundStyle().
+			Width(a.width).
+			Height(a.height).
+			AlignHorizontal(lipgloss.Center).
+			AlignVertical(lipgloss.Center).
+			Render(content)
+	}
+
+	return content
 }
 
 func (a *App) updateMenu(msg tea.Msg) (tea.Model, tea.Cmd) {

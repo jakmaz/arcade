@@ -41,6 +41,10 @@ func NewDefaultTheme() Theme {
 		tetrisZ: lipgloss.Color("#ff0000"),
 		tetrisJ: lipgloss.Color("#0000ff"),
 		tetrisL: lipgloss.Color("#ffa500"),
+
+		// Terminal Background
+		terminalBackground:    lipgloss.Color("#1a1a1a"),
+		useTerminalBackground: true,
 	}
 }
 
@@ -83,5 +87,9 @@ func NewSystemTheme() Theme {
 		tetrisZ: lipgloss.AdaptiveColor{Light: "#dc2626", Dark: "#ef4444"},
 		tetrisJ: lipgloss.AdaptiveColor{Light: "#2563eb", Dark: "#3b82f6"},
 		tetrisL: lipgloss.AdaptiveColor{Light: "#ea580c", Dark: "#f97316"},
+
+		// Terminal Background - disabled for system theme
+		terminalBackground:    lipgloss.Color(""),
+		useTerminalBackground: false,
 	}
 }

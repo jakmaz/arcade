@@ -40,6 +40,10 @@ type Theme interface {
 	TetrisZ() lipgloss.TerminalColor
 	TetrisJ() lipgloss.TerminalColor
 	TetrisL() lipgloss.TerminalColor
+
+	// Terminal Background
+	TerminalBackground() lipgloss.TerminalColor
+	ShouldUseTerminalBackground() bool
 }
 
 // BaseTheme provides default implementations
@@ -76,6 +80,9 @@ type BaseTheme struct {
 	tetrisZ lipgloss.TerminalColor
 	tetrisJ lipgloss.TerminalColor
 	tetrisL lipgloss.TerminalColor
+
+	terminalBackground    lipgloss.TerminalColor
+	useTerminalBackground bool
 }
 
 func (t *BaseTheme) Name() string { return t.name }
@@ -114,3 +121,7 @@ func (t *BaseTheme) TetrisS() lipgloss.TerminalColor { return t.tetrisS }
 func (t *BaseTheme) TetrisZ() lipgloss.TerminalColor { return t.tetrisZ }
 func (t *BaseTheme) TetrisJ() lipgloss.TerminalColor { return t.tetrisJ }
 func (t *BaseTheme) TetrisL() lipgloss.TerminalColor { return t.tetrisL }
+
+// Terminal Background
+func (t *BaseTheme) TerminalBackground() lipgloss.TerminalColor { return t.terminalBackground }
+func (t *BaseTheme) ShouldUseTerminalBackground() bool          { return t.useTerminalBackground }

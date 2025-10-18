@@ -277,5 +277,18 @@ func createThemeFromDefinition(def *ThemeDefinition) (*BaseTheme, error) {
 		theme.tetrisL = lipgloss.Color("#ffa500")
 	}
 
+	// Terminal Background
+	if cv, exists := def.Theme["terminal_background"]; exists {
+		theme.terminalBackground = resolveColor(cv)
+		theme.useTerminalBackground = true
+	} else if bgColor, exists := def.Defs["bg"]; exists {
+		// Fallback to the "bg" color from defs if available
+		theme.terminalBackground = resolveColor(ColorValue{Value: bgColor})
+		theme.useTerminalBackground = true
+	} else {
+		theme.terminalBackground = lipgloss.Color("")
+		theme.useTerminalBackground = false
+	}
+
 	return theme, nil
 }

@@ -168,3 +168,11 @@ func (s *Styles) ErrorStyle() lipgloss.Style {
 		Foreground(s.theme.Error()).
 		Bold(true)
 }
+
+// Terminal Background Style
+func (s *Styles) TerminalBackgroundStyle() lipgloss.Style {
+	if s.theme.ShouldUseTerminalBackground() {
+		return lipgloss.NewStyle().Background(s.theme.TerminalBackground())
+	}
+	return lipgloss.NewStyle()
+}
