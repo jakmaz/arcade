@@ -95,14 +95,6 @@ The ultimate goal is to make `arcade` an amazing community-driven game collectio
 4. Follow existing UI patterns from other games
 5. Use the shared styles from `internal/ui/styles/`
 
-### Development
-
-```bash
-git clone https://github.com/jakmaz/arcade
-cd arcade
-go run .
-```
-
 ## Acknowledgments
 
 - **Theming System**: Inspired by [OpenCode](https://github.com/sst/opencode)
