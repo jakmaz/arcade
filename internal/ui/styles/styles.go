@@ -173,3 +173,8 @@ func GetStyles() *theme.Styles {
 	ensureInitialized()
 	return styles
 }
+
+// CenterContent centers the given content within the specified width and height
+func CenterContent(content string, width, height int) string {
+	return lipgloss.Place(width, height, lipgloss.Center, lipgloss.Center, content)
+}

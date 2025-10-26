@@ -85,7 +85,10 @@ func (m *Model) View() tea.View {
 		help,
 	)
 
-	return tea.NewView(lipgloss.Place(m.width, m.height, lipgloss.Center, lipgloss.Center, content))
+	// Center using the global helper
+	centered := styles.CenterContent(content, m.width, m.height)
+
+	return tea.NewView(centered)
 }
 
 func (m *Model) updateBoard() {

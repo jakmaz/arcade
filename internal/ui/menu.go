@@ -152,14 +152,15 @@ func (m model) View() tea.View {
 	items = append(items, styles.GetMenuItemStyle().Render(themeDisplay))
 	help := styles.GetHelpStyle().Render("↑/↓ to move, ←/→ to change theme, Enter to select, q to quit")
 
-	// Center everything
+	// Join content with center alignment for internal elements
 	content := lipgloss.JoinVertical(lipgloss.Center,
 		title,
 		strings.Join(items, "\n"),
 		help,
 	)
 
-	var v tea.View
-	v.SetContent(content)
-	return v
+	// Center using the global helper
+	centered := styles.CenterContent(content, m.width, m.height)
+
+	return tea.NewView(centered)
 }

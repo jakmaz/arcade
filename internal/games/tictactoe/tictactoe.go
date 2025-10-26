@@ -61,7 +61,10 @@ func (m Model) View() tea.View {
 		help,
 	)
 
-	return tea.NewView(content)
+	// Center using the global helper
+	centered := styles.CenterContent(content, m.width, m.height)
+
+	return tea.NewView(centered)
 }
 
 func (m Model) renderBoard() string {
