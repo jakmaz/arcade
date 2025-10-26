@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	tea "github.com/charmbracelet/bubbletea"
+	tea "github.com/charmbracelet/bubbletea/v2"
 	"github.com/jakmaz/arcade/internal/core"
 	"github.com/spf13/cobra"
 )
@@ -41,7 +41,7 @@ func (gw *GameWrapper) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	return gw, cmd
 }
 
-func (gw *GameWrapper) View() string {
+func (gw *GameWrapper) View() tea.View {
 	return gw.game.View()
 }
 
@@ -76,7 +76,7 @@ func playGame(gameID string) {
 	// Wrap the game to handle exit controls
 	wrappedGame := NewGameWrapper(game)
 
-	p := tea.NewProgram(wrappedGame, tea.WithAltScreen())
+	p := tea.NewProgram(wrappedGame)
 	if _, err := p.Run(); err != nil {
 		fmt.Printf("Error: %v\n", err)
 		os.Exit(1)

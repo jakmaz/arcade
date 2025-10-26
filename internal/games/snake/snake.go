@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	tea "github.com/charmbracelet/bubbletea"
+	tea "github.com/charmbracelet/bubbletea/v2"
 	"github.com/charmbracelet/lipgloss/v2"
 	"github.com/jakmaz/arcade/internal/ui/styles"
 )
@@ -61,7 +61,7 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	return m, nil
 }
 
-func (m *Model) View() string {
+func (m *Model) View() tea.View {
 	title := styles.TitleStyle.Render("Snake")
 
 	board := m.renderBoard()
@@ -85,7 +85,7 @@ func (m *Model) View() string {
 		help,
 	)
 
-	return lipgloss.Place(m.width, m.height, lipgloss.Center, lipgloss.Center, content)
+	return tea.NewView(lipgloss.Place(m.width, m.height, lipgloss.Center, lipgloss.Center, content))
 }
 
 func (m *Model) updateBoard() {

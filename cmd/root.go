@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	tea "github.com/charmbracelet/bubbletea"
+	tea "github.com/charmbracelet/bubbletea/v2"
 	"github.com/jakmaz/arcade/internal/ui"
 	"github.com/spf13/cobra"
 )
@@ -15,7 +15,7 @@ var rootCmd = &cobra.Command{
 	Short:   "Classic games in your terminal",
 	Long:    `Arcade is a games collection in your terminal`,
 	Run: func(cmd *cobra.Command, args []string) {
-		p := tea.NewProgram(ui.NewApp(), tea.WithAltScreen())
+		p := tea.NewProgram(ui.NewApp())
 
 		if _, err := p.Run(); err != nil {
 			fmt.Println("Error running program:", err)

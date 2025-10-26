@@ -3,7 +3,7 @@ package tictactoe
 import (
 	"strings"
 
-	tea "github.com/charmbracelet/bubbletea"
+	tea "github.com/charmbracelet/bubbletea/v2"
 	"github.com/charmbracelet/lipgloss/v2"
 	"github.com/jakmaz/arcade/internal/ui/styles"
 )
@@ -42,7 +42,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	return m, nil
 }
 
-func (m Model) View() string {
+func (m Model) View() tea.View {
 	title := styles.TitleStyle.Render("Tic-Tac-Toe")
 
 	board := m.renderBoard()
@@ -61,7 +61,7 @@ func (m Model) View() string {
 		help,
 	)
 
-	return content
+	return tea.NewView(content)
 }
 
 func (m Model) renderBoard() string {

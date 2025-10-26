@@ -1,7 +1,7 @@
 package ui
 
 import (
-	tea "github.com/charmbracelet/bubbletea"
+	tea "github.com/charmbracelet/bubbletea/v2"
 	"github.com/charmbracelet/lipgloss/v2"
 	"github.com/jakmaz/arcade/internal/core"
 	"github.com/jakmaz/arcade/internal/ui/styles"
@@ -103,16 +103,27 @@ func (a *App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	}
 }
 
-func (a *App) View() string {
+func (a *App) View() tea.View {
+	var v tea.View
+
 	var content string
 	if a.state == MenuState {
-		content = a.menu.View()
+		v = a.menu.View()
 	} else {
-		content = a.currentGame.View()
+		v = a.currentGame.View()
 	}
 
-	// Simple centering - same as menu does
-	return lipgloss.Place(a.width, a.height, lipgloss.Center, lipgloss.Center, content)
+	// Apply theme background to full terminal area
+	bgStyle := styles.GetTerminalBackgroundStyle().
+		Width(a.width).
+		Height(a.height)
+
+	// Center content within the background
+	centeredContent := lipgloss.Place(a.width, a.height, lipgloss.Center, lipgloss.Center, content)
+	v.SetContent(centeredContent)
+	v.AltScreen = true
+
+	return tea.NewView(bgStyle.Render(centeredContent))
 }
 
 func (a *App) updateMenu(msg tea.Msg) (tea.Model, tea.Cmd) {

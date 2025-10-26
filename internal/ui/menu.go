@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	tea "github.com/charmbracelet/bubbletea"
+	tea "github.com/charmbracelet/bubbletea/v2"
 	"github.com/charmbracelet/lipgloss/v2"
 	"github.com/jakmaz/arcade/internal/core"
 	"github.com/jakmaz/arcade/internal/theme"
@@ -121,7 +121,7 @@ type ThemeChangedMsg struct {
 	ThemeName string
 }
 
-func (m model) View() string {
+func (m model) View() tea.View {
 	asciiArt := "                             _      \n" +
 		"     /\\                     | |     \n" +
 		"    /  \\   _ __ ___ __ _  __| | ___ \n" +
@@ -159,5 +159,7 @@ func (m model) View() string {
 		help,
 	)
 
-	return lipgloss.Place(m.width, m.height, lipgloss.Center, lipgloss.Center, content)
+	var v tea.View
+	v.SetContent(content)
+	return v
 }
