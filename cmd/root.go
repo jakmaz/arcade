@@ -10,9 +10,10 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "arcade",
-	Short: "Classic games in your terminal",
-	Long:  `Arcade is a games collection in your terminal`,
+	Use:     "arcade",
+	Version: "v0.1.0",
+	Short:   "Classic games in your terminal",
+	Long:    `Arcade is a games collection in your terminal`,
 	Run: func(cmd *cobra.Command, args []string) {
 		p := tea.NewProgram(ui.NewApp(), tea.WithAltScreen())
 
