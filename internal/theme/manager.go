@@ -31,15 +31,21 @@ func (m *Manager) Initialize() error {
 	// Register built-in themes first
 	m.RegisterTheme(SystemTheme())
 
-	// Get executable directory for built-in themes
+	// Load embedded themes
+	embeddedThemes, err := LoadEmbeddedThemes()
+	if err != nil {
+		return fmt.Errorf("failed to load embedded themes: %w", err)
+	}
+	for _, theme := range embeddedThemes {
+		m.RegisterTheme(theme)
+	}
+
+	// Get executable directory for additional themes (if implemented)
 	execPath, err := getCurrentExecutableDir()
 	if err == nil {
 		builtinDir := filepath.Join(execPath, "themes")
 		m.LoadThemesFromDirectories(builtinDir)
 	}
-
-	// Load built-in themes from the source code location (for development)
-	m.LoadThemesFromDirectories("internal/theme/themes")
 
 	if savedTheme := data.LoadCurrentTheme(); savedTheme != "" {
 		if err := m.SetCurrentTheme(savedTheme); err != nil {

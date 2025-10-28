@@ -1,6 +1,7 @@
 package theme
 
 import (
+	"embed"
 	"fmt"
 	"image/color"
 	"os"
@@ -9,6 +10,9 @@ import (
 	"github.com/charmbracelet/lipgloss/v2"
 	"gopkg.in/yaml.v3"
 )
+
+//go:embed themes/*.yaml
+var themesFS embed.FS
 
 // ThemeDefinition represents the YAML structure for theme files
 type ThemeDefinition struct {
@@ -184,4 +188,43 @@ func createThemeFromDefinition(def *ThemeDefinition) (*BaseTheme, error) {
 	}
 
 	return theme, nil
+}
+
+// LoadEmbeddedThemes loads all embedded themes from the themes directory
+func LoadEmbeddedThemes() ([]Theme, error) {
+	var themes []Theme
+
+	entries, err := themesFS.ReadDir("themes")
+	if err != nil {
+		return nil, fmt.Errorf("failed to read embedded themes directory: %w", err)
+	}
+
+	for _, entry := range entries {
+		if entry.IsDir() || filepath.Ext(entry.Name()) != ".yaml" {
+			continue
+		}
+
+		themePath := filepath.Join("themes", entry.Name())
+		data, err := themesFS.ReadFile(themePath)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Warning: failed to read embedded theme %s: %v\n", themePath, err)
+			continue
+		}
+
+		var def ThemeDefinition
+		if err := yaml.Unmarshal(data, &def); err != nil {
+			fmt.Fprintf(os.Stderr, "Warning: failed to parse embedded theme %s: %v\n", themePath, err)
+			continue
+		}
+
+		theme, err := createThemeFromDefinition(&def)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Warning: failed to create theme from %s: %v\n", themePath, err)
+			continue
+		}
+
+		themes = append(themes, theme)
+	}
+
+	return themes, nil
 }
