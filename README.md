@@ -80,7 +80,7 @@ The ultimate goal is to make `arcade` an amazing community-driven game collectio
    type Model struct { /* your game state */ }
    func (m Model) Init() tea.Cmd { /* initialization */ }
    func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) { /* handle input */ }
-   func (m Model) View() string { /* render UI */ }
+   func (m Model) View() tea.View { /* render UI */ }
    ```
 3. Register your game in `internal/core/games.go`
 4. Follow existing UI patterns from other games
@@ -91,3 +91,7 @@ The ultimate goal is to make `arcade` an amazing community-driven game collectio
 - **Theming System**: Inspired by [OpenCode](https://github.com/sst/opencode)
 - **Tetris**: Inspired by [tetrigo](https://github.com/Broderick-Westrope/tetrigo)
 - **Chess**: Inspired by [Gambit](https://github.com/maaslalani/gambit)
+
+## License
+
+This project is licensed under the [MIT License](./LICENSE).
