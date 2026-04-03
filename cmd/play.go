@@ -48,7 +48,7 @@ func (gw *GameWrapper) View() tea.View {
 
 	v.AltScreen = true
 
-	bg := styles.TerminalBackgroundStyle.GetBackground()
+	bg := styles.GetTerminalBackgroundStyle().GetBackground()
 	if _, isNoColor := bg.(lipgloss.NoColor); !isNoColor {
 		v.BackgroundColor = bg
 	}
