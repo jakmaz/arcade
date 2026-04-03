@@ -1,6 +1,6 @@
 package theme
 
-import "github.com/charmbracelet/lipgloss/v2"
+import "charm.land/lipgloss/v2"
 
 // SystemTheme creates a system theme that adapts to terminal colors using ANSI colors
 func SystemTheme() Theme {

@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/charmbracelet/lipgloss/v2"
+	"charm.land/lipgloss/v2"
 	"github.com/jakmaz/arcade/internal/core"
 	"github.com/spf13/cobra"
 )

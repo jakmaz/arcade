@@ -3,7 +3,7 @@ package theme
 import (
 	"image/color"
 
-	"github.com/charmbracelet/lipgloss/v2"
+	"charm.land/lipgloss/v2"
 )
 
 // Styles provides lipgloss styles based on the current theme

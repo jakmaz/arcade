@@ -1,7 +1,7 @@
 package ui
 
 import (
-	tea "github.com/charmbracelet/bubbletea/v2"
+	tea "charm.land/bubbletea/v2"
 	"github.com/jakmaz/arcade/internal/core"
 	"github.com/jakmaz/arcade/internal/ui/styles"
 )
@@ -68,7 +68,7 @@ func (a *App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return a, cmd
 		}
 
-	case tea.KeyMsg:
+	case tea.KeyPressMsg:
 		// Global Ctrl+C handling
 		if msg.String() == "ctrl+c" {
 			return a, tea.Quit
@@ -139,7 +139,7 @@ func (a *App) updateMenu(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 func (a *App) updateGame(msg tea.Msg) (tea.Model, tea.Cmd) {
 	// Check for ESC to return to menu
-	if keyMsg, ok := msg.(tea.KeyMsg); ok && keyMsg.String() == "esc" {
+	if keyMsg, ok := msg.(tea.KeyPressMsg); ok && keyMsg.String() == "esc" {
 		return a.Update(ReturnToMenuMsg{})
 	}
 

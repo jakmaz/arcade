@@ -3,7 +3,7 @@ package core
 import (
 	"sort"
 
-	tea "github.com/charmbracelet/bubbletea/v2"
+	tea "charm.land/bubbletea/v2"
 	"github.com/jakmaz/arcade/internal/games/chess"
 	"github.com/jakmaz/arcade/internal/games/snake"
 	"github.com/jakmaz/arcade/internal/games/tetris"

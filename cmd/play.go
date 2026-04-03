@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	tea "github.com/charmbracelet/bubbletea/v2"
+	tea "charm.land/bubbletea/v2"
 	"github.com/jakmaz/arcade/internal/core"
 	"github.com/spf13/cobra"
 )
@@ -27,7 +27,7 @@ func (gw *GameWrapper) Init() tea.Cmd {
 
 func (gw *GameWrapper) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
-	case tea.KeyMsg:
+	case tea.KeyPressMsg:
 		// Handle universal exit controls
 		switch msg.String() {
 		case "esc", "ctrl+c", "q":
