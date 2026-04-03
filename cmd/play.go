@@ -5,7 +5,9 @@ import (
 	"os"
 
 	tea "charm.land/bubbletea/v2"
+	"charm.land/lipgloss/v2"
 	"github.com/jakmaz/arcade/internal/core"
+	"github.com/jakmaz/arcade/internal/ui/styles"
 	"github.com/spf13/cobra"
 )
 
@@ -42,7 +44,16 @@ func (gw *GameWrapper) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (gw *GameWrapper) View() tea.View {
-	return gw.game.View()
+	v := gw.game.View()
+
+	v.AltScreen = true
+
+	bg := styles.TerminalBackgroundStyle.GetBackground()
+	if _, isNoColor := bg.(lipgloss.NoColor); !isNoColor {
+		v.BackgroundColor = bg
+	}
+
+	return v
 }
 
 func init() {
