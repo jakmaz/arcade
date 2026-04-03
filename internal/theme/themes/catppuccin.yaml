@@ -1,0 +1,52 @@
+# A soothing pastel theme for the high-spirited
+name: catppuccin-mocha
+
+palette:
+  bg: "#1e1e2e"
+  fg: "#cdd6f4"
+  comment: "#585b70"
+  cyan: "#89dceb"
+  blue: "#89b4fa"
+  purple: "#cba6f7"
+  green: "#a6e3a1"
+  orange: "#fab387"
+  red: "#f38ba8"
+  yellow: "#f9e2af"
+
+ui:
+  primary: fg
+  secondary: comment
+  accent: blue
+  success: green
+  warning: yellow
+  error: red
+
+board:
+  border: comment
+  background: none
+  cellBorder: comment
+  cellBackground: none
+  selectedCell: blue
+
+games:
+  chess:
+    whitePieces: fg
+    blackPieces: comment
+
+  snake:
+    body: green
+    head: blue
+    food: red
+
+  tetris:
+    iPiece: cyan
+    oPiece: yellow
+    tPiece: purple
+    sPiece: green
+    zPiece: red
+    jPiece: blue
+    lPiece: orange
+
+  tictactoe:
+    player1: green
+    player2: red
