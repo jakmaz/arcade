@@ -2,6 +2,7 @@ package ui
 
 import (
 	tea "charm.land/bubbletea/v2"
+	"charm.land/lipgloss/v2"
 	"github.com/jakmaz/arcade/internal/core"
 	"github.com/jakmaz/arcade/internal/ui/styles"
 )
@@ -113,7 +114,11 @@ func (a *App) View() tea.View {
 	}
 
 	v.AltScreen = true
-	v.BackgroundColor = styles.TerminalBackgroundStyle.GetBackground()
+
+	bg := styles.TerminalBackgroundStyle.GetBackground()
+	if _, isNoColor := bg.(lipgloss.NoColor); !isNoColor {
+		v.BackgroundColor = bg
+	}
 
 	return v
 }
