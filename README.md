@@ -1,7 +1,11 @@
-![Arcade](assets/arcade.png)
-
 **Arcade** is a collection of classic games for your terminal, written in Go using [Bubble Tea](https://github.com/charmbracelet/bubbletea) and [Cobra CLI](https://github.com/spf13/cobra).
 Play Snake, Tetris, 2048, and Tic-Tac-Toe directly from the command line - perfect for quick breaks between coding sessions.
+
+<p align="center">
+  <img src="assets/gameplay.gif" width="800" alt="Arcade's menu and Tetris gameplay with line clears">
+  <br>
+  <sub>System theme with the Oxide terminal palette.</sub>
+</p>
 
 ## Features
 
@@ -34,12 +38,28 @@ arcade --version           # Show version information
 
 ## Games
 
-| Game | Description | Preview |
-|------|-------------|---------|
-| **Snake** | Classic snake game - eat food, grow longer, avoid walls | <img src="assets/screenshots/snake.png" width="300" alt="Snake"> |
-| **Tetris** | Block puzzle game with falling pieces and line clearing | <img src="assets/screenshots/tetris.png" width="300" alt="Tetris"> |
-| **2048** | Slide and merge numbered tiles to reach 2048 | |
-| **Tic-Tac-Toe** | Classic X's and O's game | <img src="assets/screenshots/tictactoe.png" width="300" alt="Tic-Tac-Toe"> |
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <strong>Snake</strong><br>
+      <a href="assets/screenshots/snake.png"><img src="assets/screenshots/snake.png" width="420" alt="Snake after eating food, with a growing body and score"></a>
+    </td>
+    <td align="center" width="50%">
+      <strong>Tetris</strong><br>
+      <a href="assets/screenshots/tetris.png"><img src="assets/screenshots/tetris.png" width="420" alt="Tetris with placed blocks, a landing preview, and a cleared line"></a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <strong>2048</strong><br>
+      <a href="assets/screenshots/2048.png"><img src="assets/screenshots/2048.png" width="420" alt="2048 during play, with merged numbered tiles and a score"></a>
+    </td>
+    <td align="center" width="50%">
+      <strong>Tic-Tac-Toe</strong><br>
+      <a href="assets/screenshots/tictactoe.png"><img src="assets/screenshots/tictactoe.png" width="420" alt="A local Tic-Tac-Toe match with X and O marks and the selected cell"></a>
+    </td>
+  </tr>
+</table>
 
 ## Themes
 
