@@ -42,7 +42,7 @@ func (s *Styles) SelectedItemStyle() lipgloss.Style {
 
 func (s *Styles) HelpStyle() lipgloss.Style {
 	return lipgloss.NewStyle().
-		Foreground(s.theme.Secondary()).
+		Foreground(s.theme.Primary()).
 		MarginTop(1)
 }
 

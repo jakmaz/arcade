@@ -35,9 +35,9 @@ type UIColors struct {
 type BoardColors struct {
 	Border         string
 	Background     string
-	CellBorder     string
-	CellBackground string
-	SelectedCell   string
+	CellBorder     string `yaml:"cellBorder"`
+	CellBackground string `yaml:"cellBackground"`
+	SelectedCell   string `yaml:"selectedCell"`
 }
 
 type GameColors struct {
@@ -48,8 +48,8 @@ type GameColors struct {
 }
 
 type ChessColors struct {
-	WhitePieces string
-	BlackPieces string
+	WhitePieces string `yaml:"whitePieces"`
+	BlackPieces string `yaml:"blackPieces"`
 }
 
 type SnakeColors struct {
@@ -59,13 +59,13 @@ type SnakeColors struct {
 }
 
 type TetrisColors struct {
-	IPiece string
-	OPiece string
-	TPiece string
-	SPiece string
-	ZPiece string
-	JPiece string
-	LPiece string
+	IPiece string `yaml:"iPiece"`
+	OPiece string `yaml:"oPiece"`
+	TPiece string `yaml:"tPiece"`
+	SPiece string `yaml:"sPiece"`
+	ZPiece string `yaml:"zPiece"`
+	JPiece string `yaml:"jPiece"`
+	LPiece string `yaml:"lPiece"`
 }
 
 type TicTacToeColors struct {
