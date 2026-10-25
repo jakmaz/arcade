@@ -2,22 +2,24 @@ package snake
 
 import (
 	"fmt"
+	"math/rand/v2"
 	"strings"
+	"time"
 
 	tea "charm.land/bubbletea/v2"
 	"charm.land/lipgloss/v2"
 	"github.com/jakmaz/arcade/internal/ui/styles"
 )
 
-type Model struct {
-	board         [20][30]rune
-	snake         []Position
-	food          Position
-	direction     Direction
-	score         int
-	gameOver      bool
-	width, height int
-}
+const (
+	boardWidth  = 28
+	boardHeight = 16
+	// A tile spans two columns so horizontal and vertical moves look similar.
+	cellWidth    = 2
+	viewWidth    = boardWidth*cellWidth + 2
+	viewHeight   = boardHeight + 7
+	stepInterval = 125 * time.Millisecond
+)
 
 type Position struct {
 	x, y int
@@ -32,24 +34,51 @@ const (
 	Right
 )
 
+type Model struct {
+	snake         []Position
+	food          Position
+	direction     Direction
+	nextDirection Direction
+	score         int
+	paused        bool
+	gameOver      bool
+	won           bool
+	width, height int
+	tickID        uint64
+}
+
+type tickMsg struct {
+	game *Model
+	id   uint64
+}
+
 func New() *Model {
-	m := &Model{
-		snake: []Position{
-			{15, 10},
-			{14, 10},
-			{13, 10},
-		},
-		food:      Position{20, 10},
-		direction: Right,
-		score:     0,
-		gameOver:  false,
-	}
-	m.updateBoard()
+	m := &Model{}
+	m.reset()
 	return m
 }
 
+func (m *Model) reset() {
+	m.snake = []Position{{14, 8}, {13, 8}, {12, 8}}
+	m.food = Position{20, 8}
+	m.direction = Right
+	m.nextDirection = Right
+	m.score = 0
+	m.paused = false
+	m.gameOver = false
+	m.won = false
+	m.tickID++
+}
+
+func (m *Model) tick() tea.Cmd {
+	id := m.tickID
+	return tea.Tick(stepInterval, func(time.Time) tea.Msg {
+		return tickMsg{game: m, id: id}
+	})
+}
+
 func (m *Model) Init() tea.Cmd {
-	return nil
+	return m.tick()
 }
 
 func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
@@ -57,97 +86,196 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.WindowSizeMsg:
 		m.width = msg.Width
 		m.height = msg.Height
+	case tea.KeyPressMsg:
+		switch msg.String() {
+		case "up":
+			m.turn(Up)
+		case "down":
+			m.turn(Down)
+		case "left":
+			m.turn(Left)
+		case "right":
+			m.turn(Right)
+		case "space":
+			if !m.gameOver {
+				m.paused = !m.paused
+				m.tickID++
+				if !m.paused {
+					return m, m.tick()
+				}
+			}
+		case "r":
+			m.reset()
+			return m, m.tick()
+		}
+	case tickMsg:
+		if msg.game != m || msg.id != m.tickID || m.paused || m.gameOver {
+			return m, nil
+		}
+		if m.width >= viewWidth && m.height >= viewHeight {
+			m.advance()
+		}
+		if !m.gameOver {
+			return m, m.tick()
+		}
 	}
 	return m, nil
 }
 
-func (m *Model) View() tea.View {
-	title := styles.TitleStyle.Render("Snake")
-
-	board := m.renderBoard()
-
-	var status string
-	if m.gameOver {
-		status = styles.GameOverStyle.Render(fmt.Sprintf("Game Over! Final Score: %d", m.score))
-	} else {
-		status = styles.SelectedItemStyle.Render(fmt.Sprintf("Score: %d", m.score))
+func (m *Model) turn(direction Direction) {
+	if m.paused || m.gameOver {
+		return
 	}
-
-	help := styles.HelpStyle.Render("↑ ↓ ← → to move, Space to pause, ESC to return to menu")
-
-	content := lipgloss.JoinVertical(lipgloss.Center,
-		title,
-		"",
-		board,
-		"",
-		status,
-		"",
-		help,
-	)
-
-	// Center using the global helper
-	centered := styles.CenterContent(content, m.width, m.height)
-
-	return tea.NewView(centered)
+	if (m.direction == Up && direction == Down) ||
+		(m.direction == Down && direction == Up) ||
+		(m.direction == Left && direction == Right) ||
+		(m.direction == Right && direction == Left) {
+		return
+	}
+	m.nextDirection = direction
 }
 
-func (m *Model) updateBoard() {
-	for y := range 20 {
-		for x := range 30 {
-			m.board[y][x] = ' '
+func (m *Model) advance() {
+	m.direction = m.nextDirection
+	head := m.snake[0]
+	switch m.direction {
+	case Up:
+		head.y--
+	case Down:
+		head.y++
+	case Left:
+		head.x--
+	case Right:
+		head.x++
+	}
+
+	if head.x < 0 || head.x >= boardWidth || head.y < 0 || head.y >= boardHeight {
+		m.gameOver = true
+		return
+	}
+
+	eating := head == m.food
+	body := m.snake
+	if !eating {
+		body = body[:len(body)-1] // The tail moves away on this step.
+	}
+	for _, segment := range body {
+		if head == segment {
+			m.gameOver = true
+			return
 		}
 	}
 
+	if eating {
+		m.snake = append(m.snake, Position{})
+	}
+	copy(m.snake[1:], m.snake[:len(m.snake)-1])
+	m.snake[0] = head
+
+	if eating {
+		m.score++
+		if len(m.snake) == boardWidth*boardHeight {
+			m.gameOver = true
+			m.won = true
+		} else {
+			m.placeFood()
+		}
+	}
+}
+
+func (m *Model) placeFood() {
+	var occupied [boardHeight][boardWidth]bool
 	for _, segment := range m.snake {
-		if segment.y >= 0 && segment.y < 20 && segment.x >= 0 && segment.x < 30 {
-			m.board[segment.y][segment.x] = '●'
-		}
+		occupied[segment.y][segment.x] = true
 	}
 
-	if len(m.snake) > 0 {
-		head := m.snake[0]
-		if head.y >= 0 && head.y < 20 && head.x >= 0 && head.x < 30 {
-			m.board[head.y][head.x] = '◉'
+	free := make([]Position, 0, boardWidth*boardHeight-len(m.snake))
+	for y := range boardHeight {
+		for x := range boardWidth {
+			if !occupied[y][x] {
+				free = append(free, Position{x, y})
+			}
 		}
 	}
+	m.food = free[rand.IntN(len(free))]
+}
 
-	if m.food.y >= 0 && m.food.y < 20 && m.food.x >= 0 && m.food.x < 30 {
-		m.board[m.food.y][m.food.x] = '🍎'
+func (m *Model) View() tea.View {
+	// Ensure themed styles are ready when Snake is launched directly.
+	styles.GetStyles()
+	if m.width < viewWidth || m.height < viewHeight {
+		message := fmt.Sprintf("Terminal too small\nNeed at least %d × %d cells", viewWidth, viewHeight)
+		return tea.NewView(styles.CenterContent(styles.GetHelpStyle().Render(message), m.width, m.height))
 	}
+
+	title := styles.GetTitleStyle().MarginBottom(0).Render("S N A K E")
+	score := styles.GetSelectedItemStyle().Render(fmt.Sprintf("SCORE %03d", m.score))
+	gap := viewWidth - lipgloss.Width(title) - lipgloss.Width(score)
+	header := title + strings.Repeat(" ", gap) + score
+
+	status := "Find food. Keep moving."
+	statusStyle := styles.GetMenuItemStyle()
+	switch {
+	case m.won:
+		status = "BOARD CLEARED · YOU WIN"
+		statusStyle = styles.GetSelectedItemStyle()
+	case m.gameOver:
+		status = "GAME OVER · R TO RETRY"
+		statusStyle = styles.GetGameOverStyle()
+	case m.paused:
+		status = "PAUSED · SPACE TO RESUME"
+		statusStyle = styles.GetSelectedItemStyle()
+	}
+
+	help := styles.GetHelpStyle().MarginTop(0)
+	content := strings.Join([]string{
+		header,
+		m.renderBoard(),
+		"",
+		statusStyle.Render(status),
+		help.Render("← ↑ ↓ → move · Space pause"),
+		help.Render("R restart · Esc back"),
+	}, "\n")
+	return tea.NewView(styles.CenterContent(content, m.width, m.height))
 }
 
 func (m *Model) renderBoard() string {
-	foodStyle := lipgloss.NewStyle().
-		Bold(true)
-
-	var rows []string
-
-	topBorder := styles.BorderStyle.Render("┌" + strings.Repeat("─", 30) + "┐")
-	rows = append(rows, topBorder)
-
-	for y := range 20 {
-		var rowContent strings.Builder
-		rowContent.WriteString(styles.BorderStyle.Render("│"))
-
-		for x := range 30 {
-			cell := m.board[y][x]
-			switch cell {
-			case '◉':
-				rowContent.WriteString(styles.SnakeHeadStyle.Render("◉"))
-			case '●':
-				rowContent.WriteString(styles.SnakeStyle.Render("●"))
-			case '🍎':
-				rowContent.WriteString(foodStyle.Render("🍎"))
-			default:
-				rowContent.WriteString(" ")
-			}
-		}
-		rowContent.WriteString(styles.BorderStyle.Render("│"))
-		rows = append(rows, rowContent.String())
+	var board [boardHeight][boardWidth]byte
+	for _, segment := range m.snake {
+		board[segment.y][segment.x] = 1
+	}
+	board[m.snake[0].y][m.snake[0].x] = 2
+	if !m.won {
+		board[m.food.y][m.food.x] = 3
 	}
 
-	bottomBorder := styles.BorderStyle.Render("└" + strings.Repeat("─", 30) + "┘")
-	rows = append(rows, bottomBorder)
+	border := styles.GetBorderStyle()
+	vertical := border.Render("│")
+	body := styles.GetSnakeStyle().Render("██")
+	head := styles.GetSnakeHeadStyle().Render("▓▓")
+	food := styles.GetStyles().FoodStyle().Render("◆◆")
 
-	return strings.Join(rows, "\n")
+	var out strings.Builder
+	out.Grow((viewWidth + 1) * (boardHeight + 2))
+	out.WriteString(border.Render("┌" + strings.Repeat("─", boardWidth*cellWidth) + "┐"))
+	for y := range boardHeight {
+		out.WriteByte('\n')
+		out.WriteString(vertical)
+		for x := range boardWidth {
+			switch board[y][x] {
+			case 1:
+				out.WriteString(body)
+			case 2:
+				out.WriteString(head)
+			case 3:
+				out.WriteString(food)
+			default:
+				out.WriteString("  ")
+			}
+		}
+		out.WriteString(vertical)
+	}
+	out.WriteByte('\n')
+	out.WriteString(border.Render("└" + strings.Repeat("─", boardWidth*cellWidth) + "┘"))
+	return out.String()
 }
