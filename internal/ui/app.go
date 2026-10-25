@@ -30,11 +30,10 @@ func NewApp() *App {
 }
 
 func NewAppWithGame(gameID string) *App {
-	app := &App{
-		state:       GameState,
-		currentGame: core.CreateGame(gameID),
-		width:       80,
-		height:      25,
+	app := NewApp()
+	if game := core.CreateGame(gameID); game != nil {
+		app.state = GameState
+		app.currentGame = game
 	}
 	return app
 }
@@ -58,31 +57,33 @@ func (a *App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.WindowSizeMsg:
 		a.width = msg.Width
 		a.height = msg.Height
-		// Forward to current model
+		// Keep the menu sized while a game is open, ready for Esc.
+		var menuCmd tea.Cmd
+		a.menu, menuCmd = a.menu.Update(msg)
 		if a.state == MenuState {
-			var cmd tea.Cmd
-			a.menu, cmd = a.menu.Update(msg)
-			return a, cmd
-		} else {
-			var cmd tea.Cmd
-			a.currentGame, cmd = a.currentGame.Update(msg)
-			return a, cmd
+			return a, menuCmd
 		}
+		var gameCmd tea.Cmd
+		a.currentGame, gameCmd = a.currentGame.Update(msg)
+		return a, tea.Batch(menuCmd, gameCmd)
 
 	case tea.KeyPressMsg:
-		// Global Ctrl+C handling
-		if msg.String() == "ctrl+c" {
+		if msg.String() == "ctrl+c" || msg.String() == "q" {
 			return a, tea.Quit
 		}
 
 	case StartGameMsg:
-		// Transition to game
-		a.currentGame = core.CreateGame(msg.GameID)
+		game := core.CreateGame(msg.GameID)
+		if game == nil {
+			return a, nil
+		}
+		a.currentGame = game
 		a.state = GameState
 
 		sizeMsg := tea.WindowSizeMsg{Width: a.width, Height: a.height}
-		a.currentGame, _ = a.currentGame.Update(sizeMsg)
-		return a, a.currentGame.Init()
+		var sizeCmd tea.Cmd
+		a.currentGame, sizeCmd = a.currentGame.Update(sizeMsg)
+		return a, tea.Batch(sizeCmd, a.currentGame.Init())
 
 	case ReturnToMenuMsg:
 		// Transition back to menu
@@ -115,7 +116,7 @@ func (a *App) View() tea.View {
 
 	v.AltScreen = true
 
-	bg := styles.TerminalBackgroundStyle.GetBackground()
+	bg := styles.GetTerminalBackgroundStyle().GetBackground()
 	if _, isNoColor := bg.(lipgloss.NoColor); !isNoColor {
 		v.BackgroundColor = bg
 	}
@@ -126,18 +127,6 @@ func (a *App) View() tea.View {
 func (a *App) updateMenu(msg tea.Msg) (tea.Model, tea.Cmd) {
 	var cmd tea.Cmd
 	a.menu, cmd = a.menu.Update(msg)
-
-	// Check if menu wants to start a game
-	if cmd != nil {
-		if msg := cmd(); msg != nil {
-			if startMsg, ok := msg.(StartGameMsg); ok {
-				return a.Update(startMsg)
-			}
-			if themeMsg, ok := msg.(ThemeChangedMsg); ok {
-				return a.Update(themeMsg)
-			}
-		}
-	}
 
 	return a, cmd
 }
