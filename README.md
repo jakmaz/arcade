@@ -1,12 +1,12 @@
 ![Arcade](assets/arcade.png)
 
 **Arcade** is a collection of classic games for your terminal, written in Go using [Bubble Tea](https://github.com/charmbracelet/bubbletea) and [Cobra CLI](https://github.com/spf13/cobra).
-Play Snake, Tetris, Chess, and Tic-Tac-Toe directly from the command line - perfect for quick breaks between coding sessions.
+Play Snake, Tetris, 2048, and Tic-Tac-Toe directly from the command line - perfect for quick breaks between coding sessions.
 
 ## Features
 
 * **Terminal Native**: Runs entirely in your terminal with rich TUI
-* **Multiple Games**: Snake, Tetris, Chess, and Tic-Tac-Toe
+* **Multiple Games**: Snake, Tetris, 2048, and Tic-Tac-Toe
 * **Theming System**: 6 built-in themes with support for system theme detection and custom themes
 * **Extensible**: Easy to add new games with consistent UI patterns
 
@@ -38,7 +38,7 @@ arcade --version           # Show version information
 |------|-------------|---------|
 | **Snake** | Classic snake game - eat food, grow longer, avoid walls | <img src="assets/screenshots/snake.png" width="300" alt="Snake"> |
 | **Tetris** | Block puzzle game with falling pieces and line clearing | <img src="assets/screenshots/tetris.png" width="300" alt="Tetris"> |
-| **Chess** | Strategic board game with full piece movement | <img src="assets/screenshots/chess.png" width="300" alt="Chess"> |
+| **2048** | Slide and merge numbered tiles to reach 2048 | |
 | **Tic-Tac-Toe** | Classic X's and O's game | <img src="assets/screenshots/tictactoe.png" width="300" alt="Tic-Tac-Toe"> |
 
 ## Themes
@@ -90,7 +90,6 @@ The ultimate goal is to make `arcade` an amazing community-driven game collectio
 
 - **Theming System**: Inspired by [OpenCode](https://github.com/sst/opencode)
 - **Tetris**: Inspired by [tetrigo](https://github.com/Broderick-Westrope/tetrigo)
-- **Chess**: Inspired by [Gambit](https://github.com/maaslalani/gambit)
 
 ## License
 

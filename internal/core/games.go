@@ -4,10 +4,10 @@ import (
 	"sort"
 
 	tea "charm.land/bubbletea/v2"
-	"github.com/jakmaz/arcade/internal/games/chess"
 	"github.com/jakmaz/arcade/internal/games/snake"
 	"github.com/jakmaz/arcade/internal/games/tetris"
 	"github.com/jakmaz/arcade/internal/games/tictactoe"
+	"github.com/jakmaz/arcade/internal/games/twentyfortyeight"
 )
 
 type GameInfo struct {
@@ -22,25 +22,25 @@ var Games = map[string]GameInfo{
 	"snake": {
 		ID:          "snake",
 		Name:        "Snake",
-		Description: "Classic Snake game",
+		Description: "Eat, grow, avoid the walls",
 		NewModel:    func() tea.Model { return snake.New() },
 	},
 	"tetris": {
 		ID:          "tetris",
 		Name:        "Tetris",
-		Description: "Block puzzle game",
+		Description: "Stack blocks and clear lines",
 		NewModel:    func() tea.Model { return tetris.New() },
 	},
-	"chess": {
-		ID:          "chess",
-		Name:        "Chess",
-		Description: "Strategic board game",
-		NewModel:    func() tea.Model { return chess.New() },
+	"2048": {
+		ID:          "2048",
+		Name:        "2048",
+		Description: "Slide, merge, reach 2048",
+		NewModel:    func() tea.Model { return twentyfortyeight.New() },
 	},
 	"tictactoe": {
 		ID:          "tictactoe",
 		Name:        "Tic-Tac-Toe",
-		Description: "Classic game of tic-tac-toe",
+		Description: "Get three in a row",
 		NewModel:    func() tea.Model { return tictactoe.New() },
 	},
 }

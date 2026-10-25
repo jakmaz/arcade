@@ -135,12 +135,12 @@ func (m model) View() tea.View {
 	// Render games with cursor
 	for i, game := range m.games {
 		style := styles.GetMenuItemStyle()
-		cursor := " "
+		cursor := "  "
 		if m.cursor == i {
 			style = styles.GetSelectedItemStyle()
 			cursor = "> "
 		}
-		items = append(items, style.Render(cursor+game.Name+" — "+game.Description))
+		items = append(items, style.Render(fmt.Sprintf("%s%-12s  %s", cursor, game.Name, game.Description)))
 	}
 
 	// Add separator (just UI)
